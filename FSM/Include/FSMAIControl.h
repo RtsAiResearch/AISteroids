@@ -21,6 +21,7 @@ public:
 	//(public so that states can share it)
 	GameObj*	m_nearestAsteroid;
 	GameObj*	m_nearestPowerup;
+	short		m_asteroidCount;
 	float       m_nearestAsteroidDist;
 	float       m_nearestPowerupDist;
 	bool        m_willCollide;

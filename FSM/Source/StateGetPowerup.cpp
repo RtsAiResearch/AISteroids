@@ -76,10 +76,18 @@ int StateGetPowerup::CheckTransitions()
     if(parent->m_willCollide)
         return FSM_STATE_EVADE;
 
+	// to do fix
+	return FSM_STATE_MASSIVE_ATTACK;
+
+	/*if (parent->m_asteroidCount < 4)
+	{
+		return FSM_STATE_GETPOWERUP;
+	}
+
     if(!parent->m_nearestPowerup || parent->m_nearestAsteroidDist < parent->m_nearestPowerupDist)
         return FSM_STATE_IDLE;
 
-    return FSM_STATE_GETPOWERUP;    
+    return FSM_STATE_GETPOWERUP;*/
 }
 
 //---------------------------------------------------------

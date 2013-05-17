@@ -13,8 +13,6 @@
 #include "HumanControl.h"
 #include "FSMAIControl.h"
 
-#define INITIAL_WORLD_SIZE 1024
-
 //---------------------------------------------------------
 GameSession::GameSession()
 {

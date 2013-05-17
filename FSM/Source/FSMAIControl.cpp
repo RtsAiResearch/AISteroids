@@ -6,6 +6,7 @@
 
 #include "StateApproach.h"
 #include "StateAttack.h"
+#include "StateMassiveAttack.h"
 #include "StateEvade.h"
 #include "StateGetPowerup.h"
 #include "StateIdle.h"
@@ -22,6 +23,7 @@ AIControl(ship)
     StateApproach* approach = new StateApproach(this);
     m_machine->AddState(approach);
     m_machine->AddState(new StateAttack(this));
+    m_machine->AddState(new StateMassiveAttack(this));
     m_machine->AddState(new StateEvade(this));
     m_machine->AddState(new StateGetPowerup(this));
     StateIdle* idle = new StateIdle(this);
@@ -40,6 +42,7 @@ void FSMAIControl::Init()
     m_nearestPowerup  = NULL;
     m_safetyRadius    = 15.0f;
     m_maxSpeed        = AI_MAX_SPEED_TRY;///Game.m_timeScale;
+	m_asteroidCount   = INT_MAX;
     
     if(!m_target)
     {
@@ -73,6 +76,9 @@ void FSMAIControl::UpdatePerceptions(float dt)
     //store closest asteroid and powerup
     m_nearestAsteroid = Game.GetClosestGameObj(m_ship,GameObj::OBJ_ASTEROID);
     m_nearestPowerup  = Game.GetClosestGameObj(m_ship,GameObj::OBJ_POWERUP);
+
+	//count number of asteroids in the scene
+	m_asteroidCount = Game.GetNumGameObj(GameObj::OBJ_ASTEROID);
     
     //asteroid collision determination
     m_willCollide = false;

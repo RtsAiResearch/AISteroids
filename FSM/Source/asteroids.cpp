@@ -74,8 +74,8 @@ void Display(void)
 int main(int argc, char** argv)
 { 
 	glutInit(&argc, argv);
-	Game.m_screenW=1024;
-	Game.m_screenH=1024;
+	Game.m_screenW = INITIAL_WORLD_SIZE;
+	Game.m_screenH = INITIAL_WORLD_SIZE;
 	glutInitWindowSize(Game.m_screenW,Game.m_screenH);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH );
 	glutCreateWindow("AIsteroids");

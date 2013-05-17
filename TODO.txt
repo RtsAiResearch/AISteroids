@@ -1,0 +1,6 @@
+* Make getting powerup pri state when # of astroids is low (low = ?)
+* Do spiral death in blossom attack in these cases:
+	- Surrounded with lot of astroids
+* Take advantage of invincibility powerups:
+	- Go collect powerups quickly
+	- ignore evasion tactics

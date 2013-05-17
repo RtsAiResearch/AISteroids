@@ -348,3 +348,9 @@ bool Ship::IsTurningLeft()
 {
     return m_angVelocity > 0.0f;
 }
+//---------------------------------------------------------
+void Ship::SetDestination(const Point3f& destination, float speed)
+{
+	Point3f deltaPosition = destination - m_position;
+	m_velocity = deltaPosition.Normalize() * speed;
+}

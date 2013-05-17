@@ -32,6 +32,7 @@
     <ClInclude Include="Include\StateEvade.h" />
     <ClInclude Include="Include\StateGetPowerup.h" />
     <ClInclude Include="Include\StateIdle.h" />
+    <ClInclude Include="Include\StateMassiveAttack.h" />
     <ClInclude Include="Include\Target.h" />
     <ClInclude Include="Include\utility.h" />
   </ItemGroup>
@@ -53,6 +54,7 @@
     <ClCompile Include="Source\StateEvade.cpp" />
     <ClCompile Include="Source\StateGetPowerup.cpp" />
     <ClCompile Include="Source\StateIdle.cpp" />
+    <ClCompile Include="Source\StateMassiveAttack.cpp" />
     <ClCompile Include="Source\Target.cpp" />
     <ClCompile Include="Source\utility.cpp" />
   </ItemGroup>

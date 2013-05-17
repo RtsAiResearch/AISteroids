@@ -31,6 +31,7 @@ public:
 	void StopTurn()		{m_angVelocity =    0.0f;}
 	void Stop();
     void Hyperspace();
+	void SetDestination(const Point3f& destination, float speed);
 
     void TractorBeamOn(Point3f &offset);
     void StopTractorBeam(){m_tractor = false;}

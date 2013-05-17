@@ -15,6 +15,9 @@ class AIControl;
 using namespace std;
 
 #define BONUS_LIFE_SCORE 10000
+
+#define INITIAL_WORLD_SIZE 1024
+
 typedef std::list<GameObj*> GameObjectList;
 
 class GameSession

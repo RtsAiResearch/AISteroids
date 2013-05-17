@@ -84,6 +84,9 @@
     <ClInclude Include="Include\AIControl.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
+    <ClInclude Include="Include\StateMassiveAttack.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Ast.cpp">
@@ -141,6 +144,9 @@
       <Filter>Source Files\AI</Filter>
     </ClCompile>
     <ClCompile Include="Source\StateGetPowerup.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateMassiveAttack.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
   </ItemGroup>
