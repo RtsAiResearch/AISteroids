@@ -2,28 +2,29 @@
 #include "GameObj.h"
 #include "Bullet.h"
 #include "GameSession.h"
-//#include "TestSession.h"
 #include "utility.h"
 
+using namespace cyclone;
+
 //---------------------------------------------------------
-Bullet::Bullet(Ship* _parent,const Point3f &_p, const float _angle):
+Bullet::Bullet(Ship* _parent,const Vector3 &_p, const float _angle):
 GameObj(_p,_angle),
 m_parent(_parent)
 {
-	Point3f vel(cos(M_PI*m_angle/180.0),sin(M_PI*m_angle/180.0),0);
+	Vector3 vel(cos(M_PI*m_angle/180.0),sin(M_PI*m_angle/180.0),0);
 	vel *= BULLET_SPEED;
-	vel += m_parent->m_velocity;
-	m_velocity = vel;
+	vel += m_parent->getVelocity();
+	setVelocity(vel);
     m_size = 2.0f;
 	Init();
 }
 
 //---------------------------------------------------------
-Bullet::Bullet(Ship* _parent,const Point3f &_p, const float _angle, const Point3f &_v):
+Bullet::Bullet(Ship* _parent,const Vector3 &_p, const float _angle, const Vector3 &_v):
 GameObj(_p,_angle,_v),
 m_parent(_parent)
 {
-	m_velocity += m_parent->m_velocity;
+	setVelocity(getVelocity() + m_parent->getVelocity());
 	Init();
 }
 
@@ -40,7 +41,7 @@ void Bullet::Draw()
 {
 	glPushMatrix();
 	glDisable(GL_LIGHTING);
-	glTranslate(m_position);
+	glTranslatef(getPosition().x, getPosition().y, getPosition().z);
 	glRotatef(m_angle,0,0,1);
     glScalef(m_size,m_size,m_size);
     
@@ -83,4 +84,3 @@ void Bullet::DoCollision(GameObj *obj)
 	}
 	GameObj::DoCollision(obj);
 }
-

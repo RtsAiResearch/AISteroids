@@ -5,43 +5,45 @@
 #include <GL/glut.h>
 #include "utility.h"
 
-Point3f colorArray[16];
+using namespace cyclone;
+
+Vector3 colorArray[16];
 
 //---------------------------------------------------------
 void glInitColorArray()
 {
 	//white
-	colorArray[0] = Point3f(1,1,1);
+	colorArray[0] = Vector3(1,1,1);
 	//red
-	colorArray[1] = Point3f(1,0,0);
+	colorArray[1] = Vector3(1,0,0);
 	//green
-	colorArray[2] = Point3f(0,1,0);
+	colorArray[2] = Vector3(0,1,0);
 	//blue
-	colorArray[3] = Point3f(0,0,1);
+	colorArray[3] = Vector3(0,0,1);
 	//black
-	colorArray[4] = Point3f(0,0,0);
+	colorArray[4] = Vector3::zero();
 	//gray
-	colorArray[5] = Point3f(0.5f,0.5f,0.5f);
+	colorArray[5] = Vector3(0.5f,0.5f,0.5f);
 	//cyan
-	colorArray[6] = Point3f(0,1,1);
+	colorArray[6] = Vector3(0,1,1);
 	//yellow
-	colorArray[7] = Point3f(1,1,0);
+	colorArray[7] = Vector3(1,1,0);
 	//magenta
-	colorArray[8] = Point3f(1,0,1);
+	colorArray[8] = Vector3(1,0,1);
     //silver
-    colorArray[9] = Point3f(0.75f,0.75f,0.75f);
+    colorArray[9] = Vector3(0.75f,0.75f,0.75f);
     //maroon
-    colorArray[10]= Point3f(0.5f,0,0);
+    colorArray[10]= Vector3(0.5f,0,0);
     //dk green
-    colorArray[11]= Point3f(0,0.5f,0);
+    colorArray[11]= Vector3(0,0.5f,0);
     //dk blue
-    colorArray[12]= Point3f(0,0,0.5f);
+    colorArray[12]= Vector3(0,0,0.5f);
     //purple
-    colorArray[13]= Point3f(0.5f,0,0.5f);
+    colorArray[13]= Vector3(0.5f,0,0.5f);
     //olive
-    colorArray[14]= Point3f(0.5f,0.5f,0);
+    colorArray[14]= Vector3(0.5f,0.5f,0);
     //teal
-    colorArray[15]= Point3f(0,0.5f,0.5f);
+    colorArray[15]= Vector3(0,0.5f,0.5f);
     
 }
 
@@ -73,7 +75,7 @@ void glPrintf(int color, GLuint x, GLuint y, GLfloat scale, char* format, ...)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     glTranslatef(x, y, 0.0);
-	glColor3f(colorArray[color].x(),colorArray[color].y(),colorArray[color].z());
+	glColor3f(colorArray[color].x, colorArray[color].y, colorArray[color].z);
 	
     glScalef(scale/font_scale, scale/font_scale, scale/font_scale);
 	

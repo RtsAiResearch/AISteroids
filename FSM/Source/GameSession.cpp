@@ -12,6 +12,9 @@
 #include "utility.h"
 #include "HumanControl.h"
 #include "FSMAIControl.h"
+#include "core.h"
+
+using namespace cyclone;
 
 //---------------------------------------------------------
 GameSession::GameSession()
@@ -83,8 +86,8 @@ void GameSession::DrawLives()
 	if(m_numLives <= 10)
     {	//life triangles
         
-		Point3f location(m_screenW-15,-m_screenH + 10,0);
-		glTranslate(location);
+		Vector3 location(m_screenW-15,-m_screenH + 10,0);
+		glTranslatef(location.x, location.y, location.z);
         glScalef(3,3,1);
         for(int i = 1;i< m_numLives;i++)
 		{
@@ -99,8 +102,8 @@ void GameSession::DrawLives()
 	else//just put up a number for more then 10 extra lives
 	{
 		glPrintf(COLOR_GREEN,Game.m_screenW-30,Game.m_screenH-20,20,"%d\n",m_numLives-1);
-		Point3f location(m_screenW-15,-m_screenH +40,0);
-		glTranslate(location);
+		Vector3 location(m_screenW-15,-m_screenH +40,0);
+		glTranslatef(location.x, location.y, location.z);
         glScalef(3,3,1);
         glBegin(GL_LINE_LOOP);
 		glColor3f(.5,.5,.5);
@@ -114,12 +117,12 @@ void GameSession::DrawLives()
 }
 
 //---------------------------------------------------------
-void GameSession::Clip(Point3f &p)
+void GameSession::Clip(Vector3 &p)
 {
-	if(p.x() > m_screenW) p.x() -=m_screenW; 
-	if(p.y() > m_screenH) p.y() -=m_screenH; 
-	if(p.x() < 0)         p.x() +=m_screenW; 
-	if(p.y() < 0)         p.y() +=m_screenH; 
+	if(p.x > m_screenW) p.x -=m_screenW; 
+	if(p.y > m_screenH) p.y -=m_screenH; 
+	if(p.x < 0)         p.x +=m_screenW; 
+	if(p.y < 0)         p.y +=m_screenH; 
 }
 
 //---------------------------------------------------------
@@ -151,7 +154,9 @@ void GameSession::Update(float dt)
 		if((*list1)->m_active)
 		{
 			(*list1)->Update(dt);
-			Clip((*list1)->m_position);
+			Vector3 clippedPos = (*list1)->getPosition();
+			Clip(clippedPos);
+			(*list1)->setPosition(clippedPos);
 		}
 		else continue;
 		
@@ -210,12 +215,20 @@ void GameSession::Update(float dt)
 		Powerup* pow = new Powerup;
 		if(pow)
 		{
-			pow->m_position.x()= randflt()*m_screenW;	
-			pow->m_position.y()= randflt()*m_screenH; 
-			pow->m_position.z()= 0;
-			pow->m_velocity.x()= randflt()*40 - 20;	
-			pow->m_velocity.y()= randflt()*40 - 20;
-			pow->m_velocity.z()= 0;
+			Vector3 pos;
+
+			pos.x= randflt()*m_screenW;	
+			pos.y= randflt()*m_screenH; 
+			pos.z= 0;
+			pow->setPosition(pos);
+
+			Vector3 vel;
+
+			vel.x= randflt()*40 - 20;	
+			vel.y= randflt()*40 - 20;
+			vel.z= 0;
+			pow->setVelocity(vel);
+
 			PostGameObj(pow);
 		}
 	}
@@ -333,14 +346,13 @@ void GameSession::LaunchAsteroidWave()
         a=new Ast(8*(1+rand()%10));
 		do
 		{
-			a->m_position.x()= randflt()*m_screenW;	
-			a->m_position.y()= randflt()*m_screenH;
+			a->setPosition(Vector3(randflt() * m_screenW, randflt() * m_screenH, 0.0f));
 		}
 		while( m_mainShip && a->IsColliding(m_mainShip));
-		a->m_position.z()= 0;
-		a->m_velocity.x()= randflt()*70 - 30;	
-		a->m_velocity.y()= randflt()*70 - 30;
-		a->m_velocity.z()= 0;
+		Vector3 temp = a->getPosition();
+		temp.z = 0;
+		a->setPosition(temp);
+		a->setVelocity(Vector3(randflt()*70 - 30, randflt()*70 - 30, 0));
 		PostGameObj(a);
 		m_numAsteroids++;
 	}
@@ -426,7 +438,9 @@ GameObj* GameSession::GetClosestGameObj(GameObj* obj, int type)
         if(*list1 == obj)
             continue;
         
-        float dist = (*list1)->m_position.Distance(obj->m_position);
+		Vector3 first = (*list1)->getPosition();
+		Vector3 second = obj->getPosition();
+        float dist = (first - second).magnitude();
         if((*list1)->m_type == type && dist< closeDist)
         {
             closeDist = dist;
@@ -438,7 +452,7 @@ GameObj* GameSession::GetClosestGameObj(GameObj* obj, int type)
 }
 
 //---------------------------------------------------------
-GameObj* GameSession::GetClosestGameObj(Point3f &point, int type)
+GameObj* GameSession::GetClosestGameObj(Vector3 &point, int type)
 {
     //go through the list, find the closest object of param "type"
     //to the param "point"
@@ -448,7 +462,7 @@ GameObj* GameSession::GetClosestGameObj(Point3f &point, int type)
     GameObjectList::iterator list1;
     for(list1=m_activeObj.begin();list1!=m_activeObj.end();++list1)
     {
-        float dist = (*list1)->m_position.Distance(point);
+        float dist = (*list1)->getPosition().distance(point);
         if((*list1)->m_type == type && dist< closeDist)
         {
             closeDist = dist;
@@ -476,7 +490,7 @@ int GameSession::GetNumGameObj(int type)
 }
 
 //---------------------------------------------------------
-void GameSession::ApplyForce(int type, Point3f &force, float dt)
+void GameSession::ApplyForce(int type, Vector3 &force, float dt)
 {
     GameObjectList::iterator list1;
     for(list1=m_activeObj.begin();list1!=m_activeObj.end();++list1)
@@ -484,12 +498,12 @@ void GameSession::ApplyForce(int type, Point3f &force, float dt)
         if((*list1)->m_type != type)
             continue;
         
-        (*list1)->m_velocity += force*dt;
+        (*list1)->setVelocity((*list1)->getVelocity() + force * dt);
     }
 }
 
 //---------------------------------------------------------
-void GameSession::ApplyForce(int type,Point3f &p1, Point3f &p2, Point3f &force, float dt)
+void GameSession::ApplyForce(int type,Vector3 &p1, Vector3 &p2, Vector3 &force, float dt)
 {
     GameObjectList::iterator list1;
     for(list1=m_activeObj.begin();list1!=m_activeObj.end();++list1)
@@ -500,7 +514,7 @@ void GameSession::ApplyForce(int type,Point3f &p1, Point3f &p2, Point3f &force, 
         //check if the object is colliding with 
         //the force line segment
         if((*list1)->m_boundSphere.Intersect(p1,p2))
-            (*list1)->m_velocity += force*dt;
+            (*list1)->setVelocity((*list1)->getVelocity() + force * dt);
     }
 }
 

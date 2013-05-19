@@ -26,7 +26,7 @@ void Exp::Draw()
 {
 	glPushMatrix();
 	glDisable(GL_LIGHTING);
-	glTranslate(m_position);
+	glTranslatef(getPosition().x, getPosition().y, getPosition().z);
 	glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE);                    
     

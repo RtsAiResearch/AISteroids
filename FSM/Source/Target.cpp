@@ -22,7 +22,7 @@ void Target::Draw()
 	//just an "X"
 	glPushMatrix();
 	glDisable(GL_LIGHTING);
-	glTranslate(m_position);
+	glTranslated(getPosition().x, getPosition().y, getPosition().z);
 	glRotatef(m_angle,0,0,1);
 	glScalef(m_size,m_size,m_size);
 	

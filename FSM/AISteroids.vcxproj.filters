@@ -36,9 +36,6 @@
     <ClInclude Include="Include\HumanControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Point3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Powerup.h">
       <Filter>Header Files</Filter>
     </ClInclude>

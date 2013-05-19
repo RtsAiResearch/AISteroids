@@ -3,8 +3,10 @@
 #include "Ast.h"
 #include "Exp.h"
 #include "Gamesession.h"
-//#include "TestSession.h"
 #include "utility.h"
+
+using namespace cyclone;
+
 
 //---------------------------------------------------------
 void Ast::Init()
@@ -19,7 +21,8 @@ void Ast::Draw()
 	//just a circle
 	glPushMatrix();
 	glDisable(GL_LIGHTING);
-	glTranslate(m_position);
+	Vector3 position = getPosition();
+	glTranslatef(position.x, position.y, position.z);
 	glRotatef(m_angle,0,0,1);
 	glScalef(m_size,m_size,m_size);
 	
@@ -41,20 +44,20 @@ void Ast::DoCollision(GameObj *obj)
 	//do "pool ball" collision
 	if(obj->m_type == GameObj::OBJ_ASTEROID)
 	{
-		Point3f delta = m_position - obj->m_position;
-		//ensure at least 1 distbetween, since we divide by
+		Vector3 delta = getPosition() - obj->getPosition();
+		//ensure at least 1 dist between, since we divide by
 		//that number below
-		float distanceBetweenUs = MAX(delta.Length(),1);
+		float distanceBetweenUs = MAX(delta.magnitude(), 1);
 		float combinedSize = m_size + obj->m_size;
 		//separate the objects to disallow overlap
 		//and swap velocities
 		if(distanceBetweenUs < combinedSize)
 		{
-			m_position += (delta/distanceBetweenUs)*(combinedSize - distanceBetweenUs);
+			setPosition(getPosition() + (delta/distanceBetweenUs)*(combinedSize - distanceBetweenUs));
 
-			Point3f temp = m_velocity;
-			m_velocity = obj->m_velocity;
-			obj->m_velocity = temp;
+			Vector3 temp = getVelocity();
+			setVelocity(obj->getVelocity());
+			obj->setVelocity(temp);
 		}
 		return;
 	}
@@ -67,28 +70,28 @@ void Ast::DoCollision(GameObj *obj)
 	if(m_size>16)
 	{
 		Ast *ast;
-		Point3f nv;
-		nv.x()=randflt()*70 - 30;	
-		nv.y()=randflt()*70 - 30;
-		nv.z()=0;
+		Vector3 nv;
+		nv.x=randflt()*70 - 30;	
+		nv.y=randflt()*70 - 30;
+		nv.z=0;
 
 		ast	  =new Ast(m_size/2);
 		if(ast)
 		{
-			ast->m_angVelocity=randflt()*70;
-			ast->m_axis		=Point3f(0,0,1);
-			ast->m_position	=m_position;
-			ast->m_velocity	=m_velocity+nv;
+			ast->m_angVelocity = randflt()*70;
+			ast->m_axis		   = Vector3(0,0,1);
+			ast->setPosition(getPosition());
+			ast->setVelocity(getVelocity() + nv);
 			Game.PostGameObj(ast);
 			Game.m_numAsteroids++;
 		}
         ast	  =new Ast(m_size/2);
         if(ast)
 		{
-			ast->m_angVelocity=randflt()*70;
-			ast->m_axis		=Point3f(0,0,1);
-			ast->m_position	= m_position;
-			ast->m_velocity	= m_velocity-nv;
+			ast->m_angVelocity = randflt()*70;
+			ast->m_axis		   = Vector3(0, 0, 1);
+			ast->setPosition(getPosition());
+			ast->setVelocity(getVelocity() - nv);
 			Game.PostGameObj(ast);
 			Game.m_numAsteroids++;
 		}

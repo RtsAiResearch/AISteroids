@@ -10,8 +10,8 @@ class Bullet : public GameObj
 {
 public:
 	//constructors/functions
-	Bullet(Ship* _parent, const Point3f &_p, const float _angle);
-  	Bullet(Ship* _parent, const Point3f &_p, const float _angle, const Point3f &_v);
+	Bullet(Ship* _parent, const cyclone::Vector3 &_p, const float _angle);
+  	Bullet(Ship* _parent, const cyclone::Vector3 &_p, const float _angle, const cyclone::Vector3 &_v);
 
 	void Draw();
 	void Update(float dt);

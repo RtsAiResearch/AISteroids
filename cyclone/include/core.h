@@ -191,6 +191,7 @@ namespace cyclone {
 
         // ... Other Vector3 code as before ...
 
+		static Vector3& zero() { static Vector3 zero; return zero; }
 
         real operator[](unsigned i) const
         {
@@ -236,6 +237,14 @@ namespace cyclone {
         Vector3 operator-(const Vector3& v) const
         {
             return Vector3(x-v.x, y-v.y, z-v.z);
+        }
+
+		/**
+         * Returns the value of the given vector subtracted from this.
+         */
+        Vector3 operator-() const
+        {
+            return Vector3(-x, -y, -z);
         }
 
         /** Multiplies this vector by the given scalar. */
@@ -303,6 +312,13 @@ namespace cyclone {
                            x*vector.y-y*vector.x);
         }
 
+		/**
+         * Calculates and returns the distance between the vector and
+		 * another vector.
+         */
+
+		real distance(const Vector3& other) const { return (*this - other).magnitude(); }
+
         /**
          * Calculates and returns the scalar product of this vector
          * with the given vector.
@@ -313,6 +329,15 @@ namespace cyclone {
         }
 
         /**
+         * Calculates and returns the division of this vector
+         * with the given scalar.
+         */
+        Vector3 operator /(const real scalar) const
+        {
+            return Vector3(x / scalar, y / scalar, z / scalar);
+        }
+
+		/**
          * Calculates and returns the scalar product of this vector
          * with the given vector.
          */

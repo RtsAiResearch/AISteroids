@@ -2,7 +2,7 @@
 
 #pragma warning(disable: 4786)
 #include <list>
-#include "Point3.h"
+#include "core.h"
 
 class Ship;
 class AIOpponent;
@@ -28,13 +28,13 @@ public:
 	void Update(float dt);
 	void Draw();
 	void DrawLives();
-	void Clip(Point3f &p);
+	void Clip(cyclone::Vector3 &p);
     void PostGameObj(GameObj *obj);
     int  GetNumGameObj(int type);
     GameObj* GetClosestGameObj(GameObj* obj, int type);
-    GameObj* GetClosestGameObj(Point3f &point, int type);
-    void ApplyForce(int type,Point3f &force, float dt);
-    void ApplyForce(int type,Point3f &p1, Point3f &p2, Point3f &force, float dt);
+    GameObj* GetClosestGameObj(cyclone::Vector3 &point, int type);
+    void ApplyForce(int type,cyclone::Vector3 &force, float dt);
+    void ApplyForce(int type,cyclone::Vector3 &p1, cyclone::Vector3 &p2, cyclone::Vector3 &force, float dt);
     
     //controls
     enum

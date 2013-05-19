@@ -1,18 +1,18 @@
 #pragma once
 
 #include <assert.h>
-#include "Point3.h"
+#include "core.h"
 
 template <class FLTYPE> class Sphere3
 {
   public:
-	Point3<FLTYPE> c;
+	cyclone::Vector3 c;
 	FLTYPE r;
 	inline Sphere3( void ){}
-	inline Sphere3(Point3<FLTYPE> const & cc,FLTYPE const & rr){c=cc;r=rr;}
-	inline Sphere3(Point3<FLTYPE> const & cc){c=cc;r=0;}
+	inline Sphere3(cyclone::Vector3 const & cc,FLTYPE const & rr){c=cc;r=rr;}
+	inline Sphere3(cyclone::Vector3 const & cc){c=cc;r=0;}
 	
-	inline int Circumscribe(Point3<FLTYPE> &v0,Point3<FLTYPE> &v1,Point3<FLTYPE> &v2,Point3<FLTYPE> &v3);
+	inline int Circumscribe(cyclone::Vector3 &v0,cyclone::Vector3 &v1,cyclone::Vector3 &v2,cyclone::Vector3 &v3);
 	bool operator < (Sphere3 const & s) const {
 		if(c!=s.c) return c<s.c;
 		else return r<s.r;}
@@ -20,28 +20,28 @@ template <class FLTYPE> class Sphere3
 		return (c==s.c && r==s.r);}
 
 
-	inline bool Intersect(Point3<FLTYPE> const & p) const {
+	inline bool Intersect(cyclone::Vector3 const & p) const {
 		if((c-p).LengthSquared() < r*r) return true;
 		else return false;
 	}
 
 	inline bool Intersect(Sphere3<FLTYPE> const & s) const {
-		if((c-s.c).Length()< r+s.r) return true;
+		if((c-s.c).magnitude()< r+s.r) return true;
 		else return false;
 	}
-    inline bool Intersect(Point3<FLTYPE> &p1,Point3<FLTYPE> &p2)
+    inline bool Intersect(cyclone::Vector3 &p1,cyclone::Vector3 &p2)
     {//circle to line segment
-        float top = (c.x() - p1.x())*(p2.x() - p1.x())  + 
-                    (c.y() - p1.y())*(p2.y() - p1.y())  +
-                    (c.z() - p1.z())*(p2.z() - p1.z());
-        float bottom = (p2.x() - p1.x())*(p2.x() - p1.x())  + 
-                       (p2.y() - p1.y())*(p2.y() - p1.y())  +
-                       (p2.z() - p1.z())*(p2.z() - p1.z());
+        float top = (c.x - p1.x)*(p2.x - p1.x)  + 
+                    (c.y - p1.y)*(p2.y - p1.y)  +
+                    (c.z - p1.z)*(p2.z - p1.z);
+        float bottom = (p2.x - p1.x)*(p2.x - p1.x)  + 
+                       (p2.y - p1.y)*(p2.y - p1.y)  +
+                       (p2.z - p1.z)*(p2.z - p1.z);
         float result = top/bottom;
         if(fabsf(result) >= 0 && fabsf(result) <= 1.0f )
         {
-            Point3f point = p1 + result*(p2-p1);
-            if(point.Distance(c) <= r)
+            Vector3 point = p1 + (p2 - p1) * result;
+            if(point.distance(c) <= r)
                 return true;
         }
         return false;
@@ -61,11 +61,11 @@ template <class FLTYPE> class Sphere3
 /** Algorithms Working with spheres and points */
 
 template <class FLTYPE>
-inline FLTYPE Distance( Sphere3<FLTYPE> const & s,Point3<FLTYPE> const & p ){
+inline FLTYPE Distance( Sphere3<FLTYPE> const & s,cyclone::Vector3 const & p ){
     return Length(s.c-p)-s.r;
 }
 template <class FLTYPE>
-inline FLTYPE SquaredDistance( Sphere3<FLTYPE> const & s,Point3<FLTYPE> const & p ){
+inline FLTYPE SquaredDistance( Sphere3<FLTYPE> const & s,cyclone::Vector3 const & p ){
     return LengthSquared(s.c-p)-s.r*s.r;
 }
 

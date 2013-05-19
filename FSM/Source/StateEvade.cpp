@@ -3,6 +3,7 @@
 #include "FSMAIControl.h"
 #include "utility.h"
 
+using namespace cyclone;
 
 //---------------------------------------------------------
 void StateEvade::Update(float dt)
@@ -12,8 +13,8 @@ void StateEvade::Update(float dt)
     FSMAIControl* parent = (FSMAIControl*)m_parent;
     GameObj* asteroid = parent->m_nearestAsteroid;
     Ship*    ship     = parent->m_ship;
-    Point3f vecSteer = CROSS(ship->m_position,asteroid->m_position);
-    Point3f vecBrake = ship->m_position - asteroid->m_position;
+    Vector3 vecSteer = CROSS(ship->getPosition(), asteroid->getPosition());
+    Vector3 vecBrake = ship->getPosition() - asteroid->getPosition();
     vecSteer += vecBrake;
     
     float newDir = CALCDIR(vecSteer);
@@ -22,7 +23,7 @@ void StateEvade::Update(float dt)
     if(fabsf(angDelta) <dangerAdjAngle || fabsf(angDelta)> 180-dangerAdjAngle)//thrust
     {
         ship->StopTurn();
-        if(ship->m_velocity.Length() < parent->m_maxSpeed || parent->m_nearestAsteroidDist< 20+asteroid->m_size)
+        if(ship->getVelocity().magnitude() < parent->m_maxSpeed || parent->m_nearestAsteroidDist < 20 + asteroid->m_size)
             fabsf(angDelta)<dangerAdjAngle? ship->ThrustOn() : ship->ThrustReverse();
         else
             ship->ThrustOff();
@@ -46,7 +47,7 @@ void StateEvade::Update(float dt)
     }
     
     
-    parent->m_target->m_position = parent->m_nearestAsteroid->m_position;
+    parent->m_target->setPosition(parent->m_nearestAsteroid->getPosition());
     parent->m_targetDir = newDir;
     parent->m_debugTxt = "Evade";
 }

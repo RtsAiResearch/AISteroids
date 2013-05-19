@@ -110,7 +110,7 @@ namespace cyclone {
         Vector3 randomXZVector(real scale);
 
         /**
-         * Returns a random orientation (i.e. normalized) quaternion.
+         * Returns a random orientation (i.e. normalised) quaternion.
          */
         Quaternion randomQuaternion();
 

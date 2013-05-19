@@ -6,8 +6,10 @@
 #include "Gamesession.h"
 #include "utility.h"
 
+using namespace cyclone;
+
 //---------------------------------------------------------
-Powerup::Powerup(const Point3f &_p, const float _angle, const Point3f &_v):
+Powerup::Powerup(const Vector3 &_p, const float _angle, const Vector3 &_v):
 GameObj(_p,_angle,_v)
 {
 	Init();
@@ -28,7 +30,7 @@ void Powerup::Draw()
 	//just a square
 	glPushMatrix();
 	glDisable(GL_LIGHTING);
-	glTranslate(m_position);
+	glTranslatef(getPosition().x, getPosition().y, getPosition().z);
 	glRotatef(m_angle,0,0,1);
 	glScalef(m_size,m_size,m_size);
 	

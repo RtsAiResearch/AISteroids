@@ -1,5 +1,5 @@
 #include <GL/glut.h>
-#include "Point3.h"
+#include "core.h"
 #include "Sphere3.h"
 #include "GameObj.h"
 #include "Exp.h"
@@ -8,32 +8,35 @@
 #include <vector>
 #include <list>
 
+using namespace cyclone;
+
 //---------------------------------------------------------
 GameObj::GameObj(float _size)
 {
-	m_position		= Point3f(0,0,0);
-    m_accelleration = Point3f(0,0,0);
-    m_velocity		= Point3f(0,0,0);
+	particle.setMass(2.0f); // 1.0kg - mostly blast damage
+	particle.setVelocity(10.0f, 10.0f, 0.0f); // 5m/s
+	particle.setAcceleration(2.5f, 2.6f, 0.0f); // Floats up
+	particle.setDamping(1.0f);
     Init();
-	m_size			= _size;
-	m_boundSphere.r	= m_size;
+	m_size = _size;
+	m_boundSphere.r = m_size;
 }
 
 //---------------------------------------------------------
-GameObj::GameObj(const Point3f &_p, const float _angle, const Point3f &_v)
+GameObj::GameObj(const Vector3 &_p, const float _angle, const Vector3 &_v)
 {
-	m_position		= _p;
-    m_velocity		= _v;
-	m_angle			= _angle;
+	setPosition(_p);
+    setVelocity(_v);
+	m_angle = _angle;
     Init();
 }
 
 //---------------------------------------------------------
-GameObj::GameObj(const Point3f &_p, const float _angle)
+GameObj::GameObj(const Vector3 &_p, const float _angle)
 {
-    m_position		= _p;
-    m_velocity		= Point3f(0,0,0);
-    m_angle			= _angle;
+    setPosition(_p);
+    setVelocity(Vector3::zero());
+    m_angle = _angle;
     Init();
 }
 
@@ -45,9 +48,10 @@ GameObj::~GameObj()
 //---------------------------------------------------------
 void GameObj::Init()
 {
-    m_accelleration = Point3f(0,0,0);
+	particle.setMass(1.0f);
+    setAcceleration(Vector3::zero());
     m_angVelocity	= 0;
-    m_axis			= Point3f(0,0,1);
+    m_axis			= Vector3(0, 0, 1);
     m_active		= true;
     m_size			= 1;
     m_boundSphere.r	= m_size;
@@ -59,29 +63,31 @@ void GameObj::Init()
 //---------------------------------------------------------
 bool GameObj::IsColliding(GameObj *obj)
 {
-	m_boundSphere.c		 = m_position;
-	obj->m_boundSphere.c = obj->m_position;
+	m_boundSphere.c		 = getPosition();
+	obj->m_boundSphere.c = obj->getPosition();
 	return m_boundSphere.Intersect(obj->m_boundSphere);
 }
 
 //---------------------------------------------------------
 void GameObj::Update(float dt)
 {
-    m_velocity  += dt*m_accelleration;
-	//don't clamp bullets
-	if(!(m_type & OBJ_BULLET))
-		CLAMPVECTORLENGTH(m_velocity,0.0f,AI_MAX_SPEED_TRY);
+ //   m_velocity  += m_acceleration * dt;
+	////don't clamp bullets
+	//if(!(m_type & OBJ_BULLET))
+	//	CLAMPVECTORLENGTH(m_velocity,0.0f,AI_MAX_SPEED_TRY);
 
-    m_position  += dt*m_velocity;
-	Game.Clip(m_position );
+ //   m_position  += dt*m_velocity;
+	//Game.Clip(m_position );
 
-    m_angle     += dt*m_angVelocity;
-    m_angle      = CLAMPDIR180(m_angle);
+ //   m_angle     += dt*m_angVelocity;
+ //   m_angle      = CLAMPDIR180(m_angle);
 
-    if(m_position.z() !=0.0f)
-    {
-        m_position.z() = 0.0f;
-    }
+ //   if(m_position.z !=0.0f)
+ //   {
+ //       m_position.z = 0.0f;
+ //   }
+
+	particle.integrate(dt);
     
     if(m_lifeTimer != NO_LIFE_TIMER)
     {
@@ -100,8 +106,8 @@ void GameObj::Explode()
 		case OBJ_ASTEROID:
         case OBJ_SHIP:
         case OBJ_SAUCER:
-			e			= new Exp(this);
-			e->m_position	= m_position;
+			e = new Exp(this);
+			e->setPosition(getPosition());
 			Game.PostGameObj(e);
 			break;		
 
@@ -114,15 +120,15 @@ void GameObj::Explode()
 	}
 }
 //---------------------------------------------------------
-Point3f GameObj::UnitVectorFacing()
+Vector3 GameObj::UnitVectorFacing()
 {
 	return UNITFROMANGLE(m_angle);
 }; 
 
 //---------------------------------------------------------
-Point3f GameObj::UnitVectorVelocity()
+Vector3 GameObj::UnitVectorVelocity()
 {
-	Point3f temp = m_velocity;
-	temp.Normalize();
+	Vector3 temp = getVelocity();
+	temp.normalise();
 	return temp;
 }; 

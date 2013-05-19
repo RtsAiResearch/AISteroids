@@ -7,6 +7,8 @@
 #include "GameSession.h"
 #include "utility.h"
 
+using namespace cyclone;
+
 //---------------------------------------------------------
 Ship::Ship(int size):
 GameObj(size)
@@ -21,46 +23,45 @@ GameObj(size)
 //---------------------------------------------------------
 void Ship::Init()
 {
-	m_invincibilityTimer= 3.0f;
-	m_thrust           = false;
-	m_revThrust        = false;
-	m_position		   = Point3f(Game.m_screenW/2,Game.m_screenH/2,0);
-	m_velocity		   = Point3f(0,0,0);
-	m_angle			   = 0;
-	m_angVelocity	   = 0;
-	m_activeBulletCount= 0;
-    m_agThrust         = false;
-    m_tractor          = false;
-    m_agNorm           = Point3f(0,0,0);
-    m_tractorNorm      = Point3f(0,0,0);
-    m_shotPowerLevel   = 0;
-    
+	m_invincibilityTimer = 3.0f;
+	m_thrust             = false;
+	m_revThrust          =  false;
+	setPosition(Vector3(Game.m_screenW / 2, Game.m_screenH / 2, 0));
+	setVelocity(Vector3::zero());
+	m_angle			     = 0;
+	m_angVelocity	     = 0;
+	m_activeBulletCount  = 0;
+    m_agThrust           = false;
+    m_tractor            = false;
+    m_agNorm             = Vector3::zero();
+    m_tractorNorm        = Vector3::zero();
+    m_shotPowerLevel     = 0;
 }
 
 //---------------------------------------------------------
 void Ship::Update(float dt)
 { 
-    Point3f na;
-    m_accelleration=Point3f(0,0,0);
+    Vector3 na;
+    // setAcceleration(Vector3(0 , 0, 0));
     if(m_thrust)
     {
         na=UnitVectorFacing();
         na*=MAX_SHIP_SPEED;
-        m_accelleration+=na;
+        setAcceleration(getAcceleration() + na);
     }
 
     if(m_revThrust)
     {
         na=UnitVectorFacing();
         na*=-MAX_SHIP_SPEED;
-        m_accelleration+=na;
+        setAcceleration(getAcceleration() + na);
     }
 
     if(m_agThrust)
         AGMove(dt);
-    m_agNorm.x() = 0.0f;
-    m_agNorm.y() = 0.0f;
-    m_agNorm.z() = 0.0f;
+    m_agNorm.x = 0.0f;
+    m_agNorm.y = 0.0f;
+    m_agNorm.z = 0.0f;
 
     if(m_tractor)
         ApplyTractorBeam(dt);
@@ -71,15 +72,15 @@ void Ship::Update(float dt)
 }
 
 //---------------------------------------------------------
-void Ship::AGThrustOn(Point3f &offset)
+void Ship::AGThrustOn(Vector3 &offset)
 {
     m_agThrust = true;
-    m_agNorm = offset.Normalize();
+    m_agNorm = offset.unit();
     m_agNorm;
 }
 
 //---------------------------------------------------------
-void Ship::AGThrustAccumulate(Point3f &offset)
+void Ship::AGThrustAccumulate(Vector3 &offset)
 {
     m_agThrust = true;
     m_agNorm += offset;
@@ -90,15 +91,15 @@ void Ship::AGMove(float dt)
 {
     //antigravity move, no acceleration or velocity
     //directly affects position
-    m_position	+= dt*MAX_AG_SHIP_SPEED*m_agNorm.Normalize();
+    setPosition(getPosition()	+ m_agNorm.unit() * dt * MAX_AG_SHIP_SPEED);
 }
 
 //---------------------------------------------------------
-void Ship::TractorBeamOn(Point3f &offset)
+void Ship::TractorBeamOn(Vector3 &offset)
 {
     m_tractor = true;
     m_tractorNorm = offset;
-    m_tractorNorm.Normalize();
+    m_tractorNorm.normalise();
 }
 
 //---------------------------------------------------------
@@ -107,8 +108,8 @@ void Ship::ApplyTractorBeam(float dt)
     //is anybody intersecting the tractor line?
     //have to pass back to Game object, which is keeper of 
     //all the objects in the game world
-    Point3f endOfTractor = m_position+ m_tractorNorm*MAX_TRACTOR_POWER;
-    Game.ApplyForce(GameObj::OBJ_POWERUP,m_position,endOfTractor,m_tractorNorm*MAX_TRACTOR_POWER, dt);
+    Vector3 endOfTractor = getPosition() + m_tractorNorm * MAX_TRACTOR_POWER;
+    Game.ApplyForce(GameObj::OBJ_POWERUP, getPosition(), endOfTractor, m_tractorNorm * MAX_TRACTOR_POWER, dt);
 }
 
 //---------------------------------------------------------
@@ -148,35 +149,35 @@ void Ship::Shoot(float angle)
 	{
 		case 3:
 			m_activeBulletCount+=4;
-			bb =new Bullet(this,m_position,angle-180.0f);
+			bb =new Bullet(this, getPosition(), angle-180.0f);
 			Game.PostGameObj(bb);
-			bb =new Bullet(this,m_position,angle);
+			bb =new Bullet(this, getPosition(), angle);
 			Game.PostGameObj(bb);
-			bb =new Bullet(this,m_position,angle-90.0f);
+			bb =new Bullet(this, getPosition(), angle-90.0f);
 			Game.PostGameObj(bb);
-			bb =new Bullet(this,m_position,angle+90.0f);
+			bb =new Bullet(this, getPosition(), angle+90.0f);
 			Game.PostGameObj(bb);
 			break;
 		case 2:
 			m_activeBulletCount+=3;
-			bb =new Bullet(this,m_position,angle-180.0f);
+			bb =new Bullet(this, getPosition(), angle-180.0f);
 			Game.PostGameObj(bb);
-			bb =new Bullet(this,m_position,angle);
+			bb =new Bullet(this, getPosition(), angle);
 			Game.PostGameObj(bb);
-			bb =new Bullet(this,m_position,angle-90.0f);
+			bb =new Bullet(this, getPosition(), angle-90.0f);
 			Game.PostGameObj(bb);
 			break;
 		case 1:
 			m_activeBulletCount+=2;
-			bb =new Bullet(this,m_position,angle-180.0f);
+			bb =new Bullet(this,  getPosition(), angle-180.0f);
 			Game.PostGameObj(bb);
-			bb =new Bullet(this,m_position,angle);
+			bb =new Bullet(this, getPosition(), angle);
 			Game.PostGameObj(bb);
 			break;
 		case 0:
 		default:
 			m_activeBulletCount++;
-			bb =new Bullet(this,m_position,angle);
+			bb =new Bullet(this, getPosition(), angle);
 			Game.PostGameObj(bb);
 			break;
 
@@ -189,7 +190,7 @@ void Ship::Draw()
 	//just a triangle
 	glPushMatrix();
 	glDisable(GL_LIGHTING);
-	glTranslate(m_position);
+	glTranslated(getPosition().x, getPosition().y, getPosition().z);
 	glRotatef(m_angle,0,0,1);
     glScalef(m_size,m_size,m_size);
     if(m_invincibilityTimer > 0)
@@ -276,16 +277,13 @@ bool Ship::IsColliding(GameObj *obj)
 //---------------------------------------------------------
 void Ship::Stop()
 {
-    m_velocity.x() = 0.0f;
-    m_velocity.y() = 0.0f;
-    m_velocity.z() = 0.0f;
+    setVelocity(Vector3());
 }
 
 //---------------------------------------------------------
 void Ship::Hyperspace()
 {
-    m_position.x() = randflt()*Game.m_screenW;
-    m_position.y() = randflt()*Game.m_screenH;
+	setPosition(Vector3(randflt() * Game.m_screenW, randflt() * Game.m_screenH, 0.0f));
 }
 
 //---------------------------------------------------------
@@ -349,8 +347,8 @@ bool Ship::IsTurningLeft()
     return m_angVelocity > 0.0f;
 }
 //---------------------------------------------------------
-void Ship::SetDestination(const Point3f& destination, float speed)
+void Ship::SetDestination(const Vector3& destination, float speed)
 {
-	Point3f deltaPosition = destination - m_position;
-	m_velocity = deltaPosition.Normalize() * speed;
+	Vector3 deltaPosition = destination - getPosition();
+	setVelocity(deltaPosition.unit() * speed);
 }

@@ -31,16 +31,16 @@ public:
 	void StopTurn()		{m_angVelocity =    0.0f;}
 	void Stop();
     void Hyperspace();
-	void SetDestination(const Point3f& destination, float speed);
+	void SetDestination(const cyclone::Vector3& destination, float speed);
 
-    void TractorBeamOn(Point3f &offset);
+    void TractorBeamOn(cyclone::Vector3 &offset);
     void StopTractorBeam(){m_tractor = false;}
     void ApplyTractorBeam(float dt);
-    void AGThrustOn(Point3f &offset);
-    void AGThrustAccumulate(Point3f &offset);
+    void AGThrustOn(cyclone::Vector3 &offset);
+    void AGThrustAccumulate(cyclone::Vector3 &offset);
     void StopAGThrust()   {m_agThrust = false;}
     void AGMove(float dt);
-    Point3f& GetAGvector() {return m_agNorm;}
+    cyclone::Vector3& GetAGvector() {return m_agNorm;}
     bool IsThrustOn() {return m_thrust;}
     bool IsTurningRight();
     bool IsTurningLeft();
@@ -69,6 +69,6 @@ protected:
     bool	m_tractor;
 	int		m_shotPowerLevel;
 	float   m_invincibilityTimer;
-    Point3f m_agNorm;
-    Point3f m_tractorNorm;
+    cyclone::Vector3 m_agNorm;
+    cyclone::Vector3 m_tractorNorm;
 };

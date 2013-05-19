@@ -1,7 +1,8 @@
 #pragma once
 
 #include <math.h>
-#include "Point3.h"
+#include "core.h"
+#include "particle.h"
 #include "Sphere3.h"
 #pragma warning(disable: 4786)
 #include <vector>
@@ -10,15 +11,13 @@
 #define NO_LIFE_TIMER 99999
 #define AI_MAX_SPEED_TRY  80.0f
 
-using namespace std;
-
 class GameObj
 {
 public:
 	//constructors/functions
 	GameObj(float _size = 1);
-    GameObj(const Point3f &_p, const float _angle);
-    GameObj(const Point3f &_p, const float _angle, const Point3f &_v);
+    GameObj(const cyclone::Vector3 &_p, const float _angle);
+    GameObj(const cyclone::Vector3 &_p, const float _angle, const cyclone::Vector3 &_v);
     ~GameObj();
 	virtual void Draw(){}
     virtual void Init();
@@ -26,9 +25,14 @@ public:
 	virtual bool IsColliding(GameObj *obj);
 	virtual void DoCollision(GameObj *obj) {Explode();m_active = false;}
 	virtual void Explode();
-	Point3f UnitVectorFacing();//unit vector in facing direction
-	Point3f UnitVectorVelocity();//unit vector in velocity direction
-    
+	cyclone::Vector3 UnitVectorFacing();//unit vector in facing direction
+	cyclone::Vector3 UnitVectorVelocity();//unit vector in velocity direction
+	void setVelocity(cyclone::Vector3 velocity) { particle.setVelocity(velocity); }
+	cyclone::Vector3 getVelocity() { return particle.getVelocity(); }
+	void setAcceleration(cyclone::Vector3 acceleration) { particle.setAcceleration(acceleration); }
+	cyclone::Vector3 getAcceleration() { return particle.getAcceleration(); }
+	void setPosition(cyclone::Vector3 position) { particle.setPosition(position); }
+	cyclone::Vector3 getPosition() { return particle.getPosition(); }
 
 	enum//collision flags/object types
 	{
@@ -43,11 +47,8 @@ public:
     };
 	
 	//data
-	Point3f		m_position;	  
-	Point3f		m_axis;	  
+	cyclone::Vector3		m_axis;	  
 	float		m_angle;  
-	Point3f		m_velocity;  
-    Point3f     m_accelleration;
     float		m_angVelocity;
     bool		m_active; 
 	bool		m_explodes; 
@@ -57,4 +58,6 @@ public:
 	unsigned int m_collisionFlags;
 	float		m_lifeTimer;
 
+private:
+	cyclone::Particle particle;
 };

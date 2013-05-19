@@ -23,16 +23,27 @@
     <ClInclude Include="Include\GameObj.h" />
     <ClInclude Include="Include\GameSession.h" />
     <ClInclude Include="Include\HumanControl.h" />
-    <ClInclude Include="Include\Point3.h" />
     <ClInclude Include="Include\Powerup.h" />
     <ClInclude Include="Include\Ship.h" />
-    <ClInclude Include="Include\Sphere3.h" />
-    <ClInclude Include="Include\StateApproach.h" />
-    <ClInclude Include="Include\StateAttack.h" />
-    <ClInclude Include="Include\StateEvade.h" />
-    <ClInclude Include="Include\StateGetPowerup.h" />
+    <ClInclude Include="Include\Sphere3.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Include\StateApproach.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Include\StateAttack.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Include\StateEvade.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Include\StateGetPowerup.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Include\StateIdle.h" />
-    <ClInclude Include="Include\StateMassiveAttack.h" />
+    <ClInclude Include="Include\StateMassiveAttack.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Include\Target.h" />
     <ClInclude Include="Include\utility.h" />
   </ItemGroup>
@@ -49,12 +60,22 @@
     <ClCompile Include="Source\HumanControl.cpp" />
     <ClCompile Include="Source\Powerup.cpp" />
     <ClCompile Include="Source\Ship.cpp" />
-    <ClCompile Include="Source\StateApproach.cpp" />
-    <ClCompile Include="Source\StateAttack.cpp" />
-    <ClCompile Include="Source\StateEvade.cpp" />
-    <ClCompile Include="Source\StateGetPowerup.cpp" />
+    <ClCompile Include="Source\StateApproach.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\StateAttack.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\StateEvade.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\StateGetPowerup.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\StateIdle.cpp" />
-    <ClCompile Include="Source\StateMassiveAttack.cpp" />
+    <ClCompile Include="Source\StateMassiveAttack.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\Target.cpp" />
     <ClCompile Include="Source\utility.cpp" />
   </ItemGroup>
@@ -111,7 +132,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;GLUT_BUILDING_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeaderOutputFile>.\Debug/AISteroids.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Debug/</AssemblerListingLocation>
       <ObjectFileName>.\Debug/</ObjectFileName>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Point3.h"
+#include "core.h"
 #include <GL/glut.h>
 #include <math.h>
 #include <float.h>
@@ -30,7 +30,7 @@
 #define COLOR_OLIVE   14
 #define COLOR_TEAL    15
 
-extern Point3f colorArray[16];
+extern cyclone::Vector3 colorArray[16];
 
 #define DEGREES_PER_RADIAN	57.29577951f
 #define RADIANS_PER_DEGREE	0.017453292f
@@ -50,8 +50,8 @@ void glInitColorArray();
 void glPrintf(int color, GLuint x, GLuint y, GLfloat scale, char* format, ...);
 float FPS(int lastFrameTime);
 
-#define MIN(a,b)    (((a) < (b)) ? (a) : (b))
-#define MAX(a,b)    (((a) > (b)) ? (a) : (b))
+#define MIN(a, b)    (((a) < (b)) ? (a) : (b))
+#define MAX(a, b)    (((a) > (b)) ? (a) : (b))
 
 //inline math functions
 //---------------------------------------------------------
@@ -73,25 +73,21 @@ inline bool ISZERO( float n )
 }
 
 //---------------------------------------------------------
-inline Point3f CROSS(Point3f &a,Point3f &b)
+inline cyclone::Vector3 CROSS(cyclone::Vector3 &a,cyclone::Vector3 &b)
 {
-	Point3f temp;
-	temp.x() = a.y()*b.z()-a.z()*b.y();
-	temp.y() = a.z()*b.x()-a.x()*b.z();
-	temp.z() = a.x()*b.y()-a.y()*b.x();
-	return temp;
+	return a.vectorProduct(b);
 }
 
 //---------------------------------------------------------
-inline float DOT(Point3f &a, Point3f &b)
+inline float DOT(cyclone::Vector3 &a, cyclone::Vector3 &b)
 {
-	return a.x()*b.x()+a.y()*b.y()+a.z()*b.z();
+	return a.scalarProduct(b);
 }
 
 //---------------------------------------------------------
-inline Point3f ROT2D(Point3f &a, float angle)
+inline cyclone::Vector3 ROT2D(cyclone::Vector3 &a, float angle)
 {
-	Point3f result;
+	cyclone::Vector3 result;
 	float angleR = TORADIANS(angle);
 	float sinAngle;
 	float cosAngle;
@@ -99,9 +95,9 @@ inline Point3f ROT2D(Point3f &a, float angle)
 	sinAngle = sinf( angleR );
 	cosAngle = cosf( angleR );
 	
-	result.x() = ( cosAngle * a.x() ) - ( sinAngle * a.y() );
-	result.y() = ( sinAngle * a.x() ) + ( cosAngle * a.y() );
-	result.z() = a.z();
+	result.x = ( cosAngle * a.x ) - ( sinAngle * a.y );
+	result.y = ( sinAngle * a.x ) + ( cosAngle * a.y );
+	result.z = a.z;
 	
 	return result;
 }
@@ -145,9 +141,9 @@ inline float CLAMP(float value, float floor,float ceiling)
 }
 
 //---------------------------------------------------------
-inline void CLAMPVECTORLENGTH(Point3f& value, float floor,float ceiling)
+inline void CLAMPVECTORLENGTH(cyclone::Vector3& value, float floor,float ceiling)
 {//ensure length of vector is between floor and ceiling 
-	float vecLength = value.Length();
+	float vecLength = value.magnitude();
 	float adjust = -1.0f;
 	if(vecLength < floor)
 		adjust = floor;
@@ -156,7 +152,7 @@ inline void CLAMPVECTORLENGTH(Point3f& value, float floor,float ceiling)
 
 	if(adjust != -1.0f)
 	{
-		value.Normalize();
+		value.normalise();
 		value *= adjust;
 	}
 }
@@ -227,19 +223,19 @@ inline float CALCDIR( float fromX, float fromY, float toX, float toY )
 }	
 
 //---------------------------------------------------------
-inline float CALCDIR( Point3f &vect )
+inline float CALCDIR( cyclone::Vector3 &vect )
 {
 	// Zero degree angle along the +X axis
-	float result = atan2f( vect.y(),vect.x());
+	float result = atan2f(vect.y, vect.x);
 	result = CLAMPDIR180( TODEGREES(result) );
 	return result;
 }	
 
 //---------------------------------------------------------
-inline float CALCDIR360( Point3f &vect )
+inline float CALCDIR360( cyclone::Vector3 &vect )
 {
     // Zero degree angle along the +X axis
-    float result = atan2f( vect.y(),vect.x());
+    float result = atan2f(vect.y, vect.x);
     result = CLAMPDIR360( TODEGREES(result) );
     return result;
 }	
@@ -249,30 +245,30 @@ inline float CALCDIR360( Point3f &vect )
 #define QUAD_THREE 2
 #define QUAD_FOUR  3
 //---------------------------------------------------------
-inline int GETQUADRANT(Point3f &vec)
+inline int GETQUADRANT(cyclone::Vector3 &vec)
 {
     // Zero degree angle along the +X axis
-    float dir = atan2f( vec.y(), vec.x() );
+    float dir = atan2f( vec.y, vec.x );
     dir = CLAMPDIR360( TODEGREES(dir) );
     return ((int)(dir/90.0f));
 }
 
 #define SECTOR_SIZE 20.0f
 //---------------------------------------------------------
-inline int GETSECTOR(Point3f &vec)
+inline int GETSECTOR(cyclone::Vector3 &vec)
 {
     // Zero degree angle along the +X axis
-    float dir = atan2f( vec.y(), vec.x() );
+    float dir = atan2f( vec.y, vec.x );
     dir = CLAMPDIR360( TODEGREES(dir) );
     return ((int)(dir/SECTOR_SIZE));
 }
 
 //---------------------------------------------------------
-inline void LINEINTERSECT(Point3f &pt1, Point3f &pt2,Point3f &pt3, Point3f &pt4, float &lambda1,float &lambda2, Point3f &retval)
+inline void LINEINTERSECT(cyclone::Vector3 &pt1, cyclone::Vector3 &pt2,cyclone::Vector3 &pt3, cyclone::Vector3 &pt4, float &lambda1,float &lambda2, cyclone::Vector3 &retval)
 {
-	float denom =  ((pt4.y() - pt3.y())*(pt2.x() - pt1.x())) - ((pt4.x() - pt3.x())*(pt2.y() - pt1.y()));
-	float nume_a = ((pt4.x() - pt3.x())*(pt1.y() - pt3.y())) - ((pt4.y() - pt3.y())*(pt1.x() - pt3.x()));
-	float nume_b = ((pt2.x() - pt1.x())*(pt1.y() - pt3.y())) - ((pt2.y() - pt1.y())*(pt1.x() - pt3.x()));
+	float denom =  ((pt4.y - pt3.y)*(pt2.x - pt1.x)) - ((pt4.x - pt3.x)*(pt2.y - pt1.y));
+	float nume_a = ((pt4.x - pt3.x)*(pt1.y - pt3.y)) - ((pt4.y - pt3.y)*(pt1.x - pt3.x));
+	float nume_b = ((pt2.x - pt1.x)*(pt1.y - pt3.y)) - ((pt2.y - pt1.y)*(pt1.x - pt3.x));
 	if(ISZERO(denom))
 	{
 		retval = pt1;
@@ -287,8 +283,8 @@ inline void LINEINTERSECT(Point3f &pt1, Point3f &pt2,Point3f &pt3, Point3f &pt4,
 	lambda2 = nume_b / denom;
 
 	// Get the intersection point along line 1.
-	Point3f delta21 = pt2 - pt1;
-	retval = pt1 + lambda1*(delta21);
+	cyclone::Vector3 delta21 = pt2 - pt1;
+	retval = pt1 + (delta21) * lambda1;
 }
 
 //---------------------------------------------------------
@@ -300,20 +296,20 @@ inline float GETNORMALDIR( float myDirection, float otherDirection )
 }
 
 //---------------------------------------------------------
-inline Point3f UNITFROMANGLE(float angle)
+inline cyclone::Vector3 UNITFROMANGLE(float angle)
 {
-    return Point3f(cos(M_PI*angle/180.0),sin(M_PI*angle/180.0),0);
+    return cyclone::Vector3(cos(M_PI*angle/180.0),sin(M_PI*angle/180.0),0);
 }
 
 //---------------------------------------------------------------------------
-inline Point3f UNITCROSS(Point3f &vec1,Point3f &vec2)
+inline cyclone::Vector3 UNITCROSS(cyclone::Vector3 &vec1,cyclone::Vector3 &vec2)
 {
-    Point3f cross = CROSS(vec1,vec2);
-    float length = cross.Length();
+    cyclone::Vector3 cross = CROSS(vec1,vec2);
+    float length = cross.magnitude();
     if ( length > 1e-06f )
-        return cross/length;
+        return cross / length;
     else
-        return Point3f(0.0f,0.0f,0.0f);
+        return cyclone::Vector3();
 }
 
 //---------------------------------------------------------
@@ -321,4 +317,3 @@ inline float LERP(float t, float a, float b)
 {
     return a + (b - a)*t;
 }
-

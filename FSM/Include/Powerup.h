@@ -10,7 +10,7 @@ class Powerup : public GameObj
 public:
 	//constructors/functions
 	Powerup():GameObj(POWERUP_SIZE),m_powerType(POWERUP_SHOT)	{Init();}
-	Powerup(const Point3f &_p, const float _angle, const Point3f &_v);
+	Powerup(const cyclone::Vector3 &_p, const float _angle, const cyclone::Vector3 &_v);
 	virtual void Draw();
 	void Init();
 	void DoCollision(GameObj *obj);

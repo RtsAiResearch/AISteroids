@@ -3,6 +3,7 @@
 #include "FSMAIControl.h"
 #include "utility.h"
 
+using namespace cyclone;
 
 //---------------------------------------------------------
 void StateAttack::Update(float dt)
@@ -15,17 +16,17 @@ void StateAttack::Update(float dt)
     if(!asteroid)
         return;
     
-    Point3f futureAstPosition = asteroid->m_position;
-    Point3f deltaPos = futureAstPosition - ship->m_position;
-    float dist  = deltaPos.Length();
+    Vector3 futureAstPosition = asteroid->getPosition();
+    Vector3 deltaPos = futureAstPosition - ship->getPosition();
+    float dist  = deltaPos.magnitude();
     float time = dist/BULLET_SPEED;
-    futureAstPosition += time*asteroid->m_velocity - time*ship->m_velocity;
-    Point3f deltaFPos = futureAstPosition - ship->m_position;
-    deltaFPos.Normalize();
+    futureAstPosition += asteroid->getVelocity() * time - ship->getVelocity() * time;
+    Vector3 deltaFPos = futureAstPosition - ship->getPosition();
+    deltaFPos.normalise();
 
     float newDir     = CALCDIR(deltaFPos);
     float angDelta   = CLAMPDIR180(ship->GetClosestGunAngle(newDir) - newDir);
-    float dangerAdjAngle = ((1.0f - parent->m_nearestAsteroidDist/ APPROACH_DIST)*5.0f) + 1.0f;
+    float dangerAdjAngle = ((1.0f - parent->m_nearestAsteroidDist/ APPROACH_DIST) * 5.0f) + 1.0f;
 
     if(angDelta >=1)//dangerAdjAngle)
         ship->TurnRight();
@@ -37,7 +38,7 @@ void StateAttack::Update(float dt)
         ship->Shoot();
     }
     
-    parent->m_target->m_position = futureAstPosition;
+    parent->m_target->setPosition(futureAstPosition);
     parent->m_targetDir = newDir;
     parent->m_debugTxt = "Attack";
 }

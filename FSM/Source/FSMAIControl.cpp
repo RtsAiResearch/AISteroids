@@ -1,18 +1,16 @@
 #include "FSMAIControl.h"
 #include "FSMMachine.h"
 #include "GameSession.h"
-//#include "TestSession.h"
 #include "utility.h"
-
 #include "StateApproach.h"
 #include "StateAttack.h"
 #include "StateMassiveAttack.h"
 #include "StateEvade.h"
 #include "StateGetPowerup.h"
 #include "StateIdle.h"
-
 #include "Target.h"
 
+using namespace cyclone;
 
 //---------------------------------------------------------
 FSMAIControl::FSMAIControl(Ship* ship):
@@ -84,13 +82,13 @@ void FSMAIControl::UpdatePerceptions(float dt)
     m_willCollide = false;
     if(m_nearestAsteroid)
     {
-        float speed = m_ship->m_velocity.Length();
-        m_nearestAsteroidDist = m_nearestAsteroid->m_position.Distance(m_ship->m_position);
-        Point3f normDelta = m_nearestAsteroid->m_position - m_ship->m_position;
-        normDelta.Normalize();
-        float astSpeed = m_nearestAsteroid->m_velocity.Length();
+        float speed = m_ship->getVelocity().magnitude();
+        m_nearestAsteroidDist = m_nearestAsteroid->getPosition().distance(m_ship->getPosition());
+        Vector3 normDelta = m_nearestAsteroid->getPosition() - m_ship->getPosition();
+        normDelta.normalise();
+        float astSpeed = m_nearestAsteroid->getVelocity().magnitude();
         float shpSpeedAdj = DOT(m_ship->UnitVectorVelocity(),normDelta)*speed;
-        float astSpeedAdj = DOT(m_nearestAsteroid->UnitVectorVelocity(),-normDelta)*astSpeed;
+        float astSpeedAdj = astSpeed * DOT(m_nearestAsteroid->UnitVectorVelocity(), -normDelta);
         speed = shpSpeedAdj+astSpeedAdj;
 
 //        if(speed > astSpeed)
@@ -113,7 +111,7 @@ void FSMAIControl::UpdatePerceptions(float dt)
     m_powerupNear = false;
     if(m_nearestPowerup)
     {
-        m_nearestPowerupDist = m_nearestPowerup->m_position.Distance(m_ship->m_position);
+        m_nearestPowerupDist = m_nearestPowerup->getPosition().distance(m_ship->getPosition());
         if(m_nearestPowerupDist <= POWERUP_SCAN_DIST)
         {
             m_powerupNear     = true;
@@ -121,5 +119,3 @@ void FSMAIControl::UpdatePerceptions(float dt)
     }
     
 }
-
-

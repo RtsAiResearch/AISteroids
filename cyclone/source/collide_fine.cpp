@@ -295,7 +295,7 @@ static inline bool tryAxis(
     unsigned &smallestCase
     )
 {
-    // Make sure we have a normalized axis, and don't check almost parallel axes
+    // Make sure we have a normalised axis, and don't check almost parallel axes
     if (axis.squareMagnitude() < 0.0001) return true;
     axis.normalise();
 

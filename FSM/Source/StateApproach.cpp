@@ -4,6 +4,7 @@
 #include "utility.h"
 #include "GameSession.h"
 
+using namespace cyclone;
 
 //---------------------------------------------------------
 void StateApproach::Update(float dt)
@@ -13,56 +14,56 @@ void StateApproach::Update(float dt)
     GameObj* asteroid = parent->m_nearestAsteroid;
     Ship*    ship     = parent->m_ship;
 
-	Point3f deltaPos = asteroid->m_position - ship->m_position;
-	Point3f astVelNormalized = asteroid->m_velocity;
-	astVelNormalized.Normalize();
+	Vector3 deltaPos = asteroid->getPosition() - ship->getPosition();
+	Vector3 astVelnormalised = asteroid->getVelocity();
+	astVelnormalised.normalise();
     
-	Point3f futureAstPosition;
+	Vector3 futureAstPosition;
 
 	//use braking vector if you're going too fast
 	bool needToBrake = false;
-    float speed		 = ship->m_velocity.Length();
+    float speed		 = ship->getVelocity().magnitude();
     if(speed > parent->m_maxSpeed)
 	{
 		needToBrake = true;
-		deltaPos	= -ship->m_velocity;
+		deltaPos	= -ship->getVelocity();
 	}
 	else
 	{
 		float dotVelocity = DOT(ship->UnitVectorVelocity(),asteroid->UnitVectorVelocity());
 
 		//if the other guy is "to my front" and we're moving towards each other...
-		Point3f targetPos = asteroid->m_position;
-		if ((DOT(deltaPos,ship->UnitVectorVelocity()) < 0) || (dotVelocity > -0.93))//magic number == about 21 degrees
+		Vector3 targetPos = asteroid->getPosition();
+		if ((DOT(deltaPos,ship->UnitVectorVelocity()) < 0) || (dotVelocity > -0.93)) // magic number == about 21 degrees
 		{
-			Point3f shipVel = ship->m_velocity;
-			shipVel = shipVel.Normalize() * parent->m_maxSpeed;
-			float combinedSpeed	  = (shipVel + asteroid->m_velocity).Length();
-			float predictionTime  = deltaPos.Length() / combinedSpeed;
-			targetPos = asteroid->m_position + (asteroid->m_velocity*predictionTime);
-			deltaPos  = targetPos - ship->m_position;
+			Vector3 shipVel = ship->getVelocity();
+			shipVel = shipVel.unit() * parent->m_maxSpeed;
+			float combinedSpeed	  = (shipVel + asteroid->getVelocity()).magnitude();
+			float predictionTime  = deltaPos.magnitude() / combinedSpeed;
+			targetPos = asteroid->getPosition() + (asteroid->getVelocity() * predictionTime);
+			deltaPos  = targetPos - ship->getPosition();
 
 			Game.Clip(futureAstPosition);
 		}
 	}
 	//sub off our current velocity, to get direction of wanted velocity
-	deltaPos -= ship->m_velocity;
+	deltaPos -= ship->getVelocity();
   
     //find new direction, and head to it
     float newDir	 = CALCDIR(deltaPos);
     float angDelta	 = CLAMPDIR180(newDir - ship->m_angle);
-	bool canApproachInReverse = needToBrake || ship->GetShotLevel()!=0;
+	bool canApproachInReverse = needToBrake || ship->GetShotLevel() != 0;
 	
-    if(fabsf(angDelta) <3 || (fabsf(angDelta)> 177 && canApproachInReverse) )
+    if(fabsf(angDelta) < 3 || (fabsf(angDelta) > 177 && canApproachInReverse) )
     {
         //thrust
         ship->StopTurn();
         if(parent->m_nearestAsteroidDist > parent->m_nearestAsteroid->m_size + 20)
-            fabsf(angDelta)<3? ship->ThrustOn() : ship->ThrustReverse();
+            fabsf(angDelta) < 3 ? ship->ThrustOn() : ship->ThrustReverse();
         else
             ship->ThrustOff();
     }
-	else if(fabsf(angDelta)<=90 || !canApproachInReverse)
+	else if(fabsf(angDelta) <= 90 || !canApproachInReverse)
     {
         //turn when facing forwards
 		if(angDelta<0)
@@ -73,12 +74,12 @@ void StateApproach::Update(float dt)
     else
     {
         //turn when facing rear
-        if(angDelta>0)
+        if(angDelta > 0)
             ship->TurnRight();
-        else if(angDelta<0)
+        else if(angDelta < 0)
             ship->TurnLeft();
     }
-    parent->m_target->m_position = asteroid->m_position;
+    parent->m_target->setPosition(asteroid->getPosition());
     parent->m_targetDir = newDir;
     parent->m_debugTxt = "Approach";
 }

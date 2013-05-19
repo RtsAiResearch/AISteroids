@@ -4,6 +4,7 @@
 #include "utility.h"
 #include "GameSession.h"
 
+using namespace cyclone;
 
 //---------------------------------------------------------
 void StateGetPowerup::Update(float dt)
@@ -16,27 +17,27 @@ void StateGetPowerup::Update(float dt)
         return;
     
     //find future position of powerup
-    Point3f futurePowPosition = powerup->m_position;
-    Point3f deltaPos = futurePowPosition - ship->m_position;
-    float dist  = deltaPos.Length();
+    Vector3 futurePowPosition = powerup->getPosition();
+    Vector3 deltaPos = futurePowPosition - ship->getPosition();
+    float dist  = deltaPos.magnitude();
     float speed = parent->m_maxSpeed;
     float time = dist/speed;
-    futurePowPosition += time*powerup->m_velocity- ship->m_velocity*time;
+    futurePowPosition += powerup->getVelocity() * time - ship->getVelocity() * time;
 	Game.Clip(futurePowPosition);
-    Point3f deltaFPos = futurePowPosition - ship->m_position;
-    deltaFPos.Normalize();
+    Vector3 deltaFPos = futurePowPosition - ship->getPosition();
+    deltaFPos.normalise();
     
     //add braking vec if you're going too fast
-    speed = ship->m_velocity.Length();
+    speed = ship->getVelocity().magnitude();
     if(speed > parent->m_maxSpeed)
         deltaFPos += -ship->UnitVectorVelocity();
 
     //DOT out my velocity
-    Point3f shpUnitVel = ship->UnitVectorVelocity();
+    Vector3 shpUnitVel = ship->UnitVectorVelocity();
     float dotVel = DOT(shpUnitVel,deltaFPos);
     float proj = 1-dotVel;
-    deltaFPos -= proj*shpUnitVel;
-    deltaFPos.Normalize();
+    deltaFPos -= shpUnitVel * proj;
+    deltaFPos.normalise();
 
     float newDir = CALCDIR(deltaFPos);
     float angDelta = CLAMPDIR180(ship->m_angle - newDir);
@@ -63,7 +64,7 @@ void StateGetPowerup::Update(float dt)
             ship->TurnLeft();
     }
     
-    parent->m_target->m_position = futurePowPosition + ship->m_velocity*time;
+    parent->m_target->setPosition(futurePowPosition + ship->getVelocity() * time);
     parent->m_targetDir = newDir;
     parent->m_debugTxt = "GetPowerup";
 }
@@ -76,10 +77,7 @@ int StateGetPowerup::CheckTransitions()
     if(parent->m_willCollide)
         return FSM_STATE_EVADE;
 
-	// to do fix
-	return FSM_STATE_MASSIVE_ATTACK;
-
-	/*if (parent->m_asteroidCount < 4)
+	if (parent->m_asteroidCount < 4)
 	{
 		return FSM_STATE_GETPOWERUP;
 	}
@@ -87,7 +85,7 @@ int StateGetPowerup::CheckTransitions()
     if(!parent->m_nearestPowerup || parent->m_nearestAsteroidDist < parent->m_nearestPowerupDist)
         return FSM_STATE_IDLE;
 
-    return FSM_STATE_GETPOWERUP;*/
+    return FSM_STATE_GETPOWERUP;
 }
 
 //---------------------------------------------------------
