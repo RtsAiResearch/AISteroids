@@ -1,5 +1,4 @@
 #include <GL/glut.h>
-#include "core.h"
 #include "Sphere3.h"
 #include "GameObj.h"
 #include "Exp.h"
@@ -13,10 +12,7 @@ using namespace cyclone;
 //---------------------------------------------------------
 GameObj::GameObj(float _size)
 {
-	particle.setMass(2.0f); // 1.0kg - mostly blast damage
-	particle.setVelocity(10.0f, 10.0f, 0.0f); // 5m/s
-	particle.setAcceleration(2.5f, 2.6f, 0.0f); // Floats up
-	particle.setDamping(1.0f);
+	body.setVelocity(10.0f, 10.0f, 0.0f); // 5m/s
     Init();
 	m_size = _size;
 	m_boundSphere.r = m_size;
@@ -48,16 +44,22 @@ GameObj::~GameObj()
 //---------------------------------------------------------
 void GameObj::Init()
 {
-	particle.setMass(1.0f);
-    setAcceleration(Vector3::zero());
-    m_angVelocity	= 0;
-    m_axis			= Vector3(0, 0, 1);
-    m_active		= true;
-    m_size			= 1;
-    m_boundSphere.r	= m_size;
-    m_collisionFlags= OBJ_NONE;
-    m_type			= OBJ_NONE;
-    m_lifeTimer		= NO_LIFE_TIMER;
+	body.setAcceleration(Vector3::zero());
+	body.setMass(2.0f);
+	body.setDamping(1.0f, 1.0f);
+	//cyclone::Matrix3 it;
+	//it.setBlockInertiaTensor(cyclone::Vector3(2,1,1), 1);
+	//body.setInertiaTensor(it);
+	body.setAwake();
+	body.setCanSleep(false);
+    m_angVelocity	 = 0;
+    m_axis			 = Vector3(0, 0, 1);
+    m_active		 = true;
+    m_size			 = 1;
+    m_boundSphere.r	 = m_size;
+    m_collisionFlags = OBJ_NONE;
+    m_type			 = OBJ_NONE;
+    m_lifeTimer		 = NO_LIFE_TIMER;
 }
 
 //---------------------------------------------------------
@@ -79,21 +81,21 @@ void GameObj::Update(float dt)
  //   m_position  += dt*m_velocity;
 	//Game.Clip(m_position );
 
- //   m_angle     += dt*m_angVelocity;
- //   m_angle      = CLAMPDIR180(m_angle);
+    //m_angle     += dt*m_angVelocity;
+    //m_angle      = CLAMPDIR180(m_angle);
 
  //   if(m_position.z !=0.0f)
  //   {
  //       m_position.z = 0.0f;
  //   }
-
-	particle.integrate(dt);
+	
+	body.integrate(dt);
     
     if(m_lifeTimer != NO_LIFE_TIMER)
     {
         m_lifeTimer -= dt;
-        if(m_lifeTimer<0.0f) 
-            m_active=false;
+        if(m_lifeTimer < 0.0f) 
+            m_active = false;
     }
 };
 
@@ -128,7 +130,5 @@ Vector3 GameObj::UnitVectorFacing()
 //---------------------------------------------------------
 Vector3 GameObj::UnitVectorVelocity()
 {
-	Vector3 temp = getVelocity();
-	temp.normalise();
-	return temp;
-}; 
+	return getVelocity().unit();
+};

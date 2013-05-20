@@ -1,7 +1,7 @@
 #pragma once
 
 #include <math.h>
-#include "core.h"
+#include "body.h"
 #include "particle.h"
 #include "Sphere3.h"
 #pragma warning(disable: 4786)
@@ -27,12 +27,13 @@ public:
 	virtual void Explode();
 	cyclone::Vector3 UnitVectorFacing();//unit vector in facing direction
 	cyclone::Vector3 UnitVectorVelocity();//unit vector in velocity direction
-	void setVelocity(cyclone::Vector3 velocity) { particle.setVelocity(velocity); }
-	cyclone::Vector3 getVelocity() { return particle.getVelocity(); }
-	void setAcceleration(cyclone::Vector3 acceleration) { particle.setAcceleration(acceleration); }
-	cyclone::Vector3 getAcceleration() { return particle.getAcceleration(); }
-	void setPosition(cyclone::Vector3 position) { particle.setPosition(position); }
-	cyclone::Vector3 getPosition() { return particle.getPosition(); }
+	void setVelocity(cyclone::Vector3 velocity) { body.setVelocity(velocity); }
+	cyclone::Vector3 getVelocity() { return body.getVelocity(); }
+	void setAcceleration(cyclone::Vector3 acceleration) { body.setAcceleration(acceleration); }
+	cyclone::Vector3 getAcceleration() { return body.getAcceleration(); }
+	void setPosition(cyclone::Vector3 position) { body.setPosition(position); }
+	cyclone::Vector3 getPosition() { return body.getPosition(); }
+	void addRotation(cyclone::Vector3 rotation) { body.addRotation(rotation); }
 
 	enum//collision flags/object types
 	{
@@ -47,17 +48,17 @@ public:
     };
 	
 	//data
-	cyclone::Vector3		m_axis;	  
-	float		m_angle;  
-    float		m_angVelocity;
-    bool		m_active; 
-	bool		m_explodes; 
-	float		m_size;
-	Sphere3f	m_boundSphere;
-	int			m_type;
-	unsigned int m_collisionFlags;
-	float		m_lifeTimer;
+	cyclone::Vector3 m_axis;	  
+	float			 m_angle;  
+    float			 m_angVelocity;
+    bool			 m_active; 
+	bool			 m_explodes; 
+	float			 m_size;
+	Sphere3f		 m_boundSphere;
+	int				 m_type;
+	unsigned int	 m_collisionFlags;
+	float			 m_lifeTimer;
 
 private:
-	cyclone::Particle particle;
+	cyclone::RigidBody body;
 };

@@ -16,7 +16,7 @@ void StateMassiveAttack::Update(float dt)
     if(!asteroid)
         return;
 
-	ship->SetDestination(Vector3(Game.m_screenW / 2, Game.m_screenH / 2, 0), parent->m_maxSpeed);
+	ship->setDestination(Vector3(Game.m_screenW / 2, Game.m_screenH / 2, 0), parent->m_maxSpeed);
 	ship->TurnRight();
 	ship->Shoot();
 

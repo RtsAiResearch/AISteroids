@@ -27,7 +27,7 @@ void Ship::Init()
 	m_thrust             = false;
 	m_revThrust          =  false;
 	setPosition(Vector3(Game.m_screenW / 2, Game.m_screenH / 2, 0));
-	setVelocity(Vector3::zero());
+	setVelocity(Vector3(1, 0, 0));
 	m_angle			     = 0;
 	m_angVelocity	     = 0;
 	m_activeBulletCount  = 0;
@@ -42,19 +42,18 @@ void Ship::Init()
 void Ship::Update(float dt)
 { 
     Vector3 na;
-    // setAcceleration(Vector3(0 , 0, 0));
     if(m_thrust)
     {
-        na=UnitVectorFacing();
-        na*=MAX_SHIP_SPEED;
-        setAcceleration(getAcceleration() + na);
+        na = UnitVectorFacing();
+        na *= 1;
+        setVelocity(getVelocity() + na);
     }
 
     if(m_revThrust)
     {
-        na=UnitVectorFacing();
-        na*=-MAX_SHIP_SPEED;
-        setAcceleration(getAcceleration() + na);
+        na = UnitVectorFacing();
+        na *= -1;
+        setVelocity(getVelocity() + na);
     }
 
     if(m_agThrust)
@@ -307,9 +306,9 @@ float Ship::GetClosestGunAngle(float angle)
         return m_angle;
     if(fabsf(angle)> 135 && m_shotPowerLevel > 0)
         return m_angle+180;
-    if(angle < 0 && m_shotPowerLevel >1)
+    if(angle < 0 && m_shotPowerLevel > 1)
         return m_angle-90;
-    if(angle > 0 && m_shotPowerLevel >2)
+    if(angle > 0 && m_shotPowerLevel > 2)
         return m_angle+90;
     
     return m_angle;
@@ -326,13 +325,13 @@ float Ship::GetClosestGunApproachAngle(float angle)
 //---------------------------------------------------------
 void Ship::TurnLeft()
 {
-    m_angVelocity =  MAX(120.0f,320.0f/Game.m_timeScale);
+    m_angVelocity =  MAX(120.0f,320.0f / Game.m_timeScale);
 }
 
 //---------------------------------------------------------
 void Ship::TurnRight()
 {
-    m_angVelocity = MIN(-120.0f,-320.0f/Game.m_timeScale);
+    m_angVelocity = MIN(-120.0f,-320.0f / Game.m_timeScale);
 }
 
 //---------------------------------------------------------
@@ -347,7 +346,7 @@ bool Ship::IsTurningLeft()
     return m_angVelocity > 0.0f;
 }
 //---------------------------------------------------------
-void Ship::SetDestination(const Vector3& destination, float speed)
+void Ship::setDestination(const Vector3& destination, float speed)
 {
 	Vector3 deltaPosition = destination - getPosition();
 	setVelocity(deltaPosition.unit() * speed);

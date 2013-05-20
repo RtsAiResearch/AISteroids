@@ -31,7 +31,7 @@ public:
 	void StopTurn()		{m_angVelocity =    0.0f;}
 	void Stop();
     void Hyperspace();
-	void SetDestination(const cyclone::Vector3& destination, float speed);
+	void setDestination(const cyclone::Vector3& destination, float speed);
 
     void TractorBeamOn(cyclone::Vector3 &offset);
     void StopTractorBeam(){m_tractor = false;}

@@ -112,8 +112,8 @@ void  SpecialKey(int key, int x, int y)
 		Game.UseControl(GameSession::CONTROL_THRUST_ON);	 
 		break;
 	case GLUT_KEY_DOWN: 
-		Game.UseControl(GameSession::CONTROL_STOP);	 
-//		Game.UseControl(GameSession::CONTROL_THRUST_REVERSE);	 
+//		Game.UseControl(GameSession::CONTROL_STOP);	 
+		Game.UseControl(GameSession::CONTROL_THRUST_REVERSE);	 
 		break;
 	default:
 		break;

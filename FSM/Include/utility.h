@@ -298,7 +298,7 @@ inline float GETNORMALDIR( float myDirection, float otherDirection )
 //---------------------------------------------------------
 inline cyclone::Vector3 UNITFROMANGLE(float angle)
 {
-    return cyclone::Vector3(cos(M_PI*angle/180.0),sin(M_PI*angle/180.0),0);
+    return cyclone::Vector3(cos(M_PI * angle / 180.0), sin(M_PI * angle / 180.0), 0);
 }
 
 //---------------------------------------------------------------------------

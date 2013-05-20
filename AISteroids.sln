@@ -8,6 +8,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AISteroids", "FSM\AISteroid
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cyclone", "cyclone\cyclone.vcxproj", "{642FD1DA-A1BA-4F56-95A6-924BA5E9A30C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "aicore", "aicore\aicore.vcxproj", "{BBE39697-6E7C-4C0B-946D-10EE23B80AC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -24,6 +26,12 @@ Global
 		{642FD1DA-A1BA-4F56-95A6-924BA5E9A30C}.Release|Win32.ActiveCfg = Release|Win32
 		{642FD1DA-A1BA-4F56-95A6-924BA5E9A30C}.Release|Win32.Build.0 = Release|Win32
 		{642FD1DA-A1BA-4F56-95A6-924BA5E9A30C}.Release|Win32.Deploy.0 = Release|Win32
+		{BBE39697-6E7C-4C0B-946D-10EE23B80AC1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BBE39697-6E7C-4C0B-946D-10EE23B80AC1}.Debug|Win32.Build.0 = Debug|Win32
+		{BBE39697-6E7C-4C0B-946D-10EE23B80AC1}.Debug|Win32.Deploy.0 = Debug|Win32
+		{BBE39697-6E7C-4C0B-946D-10EE23B80AC1}.Release|Win32.ActiveCfg = Release|Win32
+		{BBE39697-6E7C-4C0B-946D-10EE23B80AC1}.Release|Win32.Build.0 = Release|Win32
+		{BBE39697-6E7C-4C0B-946D-10EE23B80AC1}.Release|Win32.Deploy.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

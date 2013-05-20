@@ -113,9 +113,6 @@
     <ClCompile Include="Source\Ship.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\StateIdle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Target.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -144,6 +141,9 @@
       <Filter>Source Files\AI</Filter>
     </ClCompile>
     <ClCompile Include="Source\StateMassiveAttack.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateIdle.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
   </ItemGroup>
