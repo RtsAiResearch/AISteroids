@@ -3,7 +3,6 @@
 #include "FSMAIControl.h"
 #include "utility.h"
 
-
 //---------------------------------------------------------
 void StateIdle::Update(float dt)
 {
@@ -29,7 +28,7 @@ int StateIdle::CheckTransitions()
     }
 
     if(parent->m_nearestPowerup && 
-	   parent->m_ship->GetShotLevel() < MAX_SHOT_LEVEL)
+       parent->m_ship->GetShotLevel() < MAX_SHOT_LEVEL)
         return FSM_STATE_GETPOWERUP;
 
     return FSM_STATE_IDLE;

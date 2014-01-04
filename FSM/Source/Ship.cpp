@@ -13,24 +13,24 @@ using namespace cyclone;
 Ship::Ship(int size):
 GameObj(size)
 {
-	m_shotPowerLevel   = 0;
-	m_type             = GameObj::OBJ_SHIP;
-	m_collisionFlags   = GameObj::OBJ_ASTEROID;
+    m_shotPowerLevel   = 0;
+    m_type             = GameObj::OBJ_SHIP;
+    m_collisionFlags   = GameObj::OBJ_ASTEROID;
 
-	Init();
+    Init();
 }
 
 //---------------------------------------------------------
 void Ship::Init()
 {
-	m_invincibilityTimer = 3.0f;
-	m_thrust             = false;
-	m_revThrust          =  false;
-	setPosition(Vector3(Game.m_screenW / 2, Game.m_screenH / 2, 0));
-	setVelocity(Vector3(1, 0, 0));
-	m_angle			     = 0;
-	m_angVelocity	     = 0;
-	m_activeBulletCount  = 0;
+    m_invincibilityTimer = 3.0f;
+    m_thrust             = false;
+    m_revThrust          =  false;
+    setPosition(Vector3(Game.m_screenW / 2, Game.m_screenH / 2, 0));
+    setVelocity(Vector3(1, 0, 0));
+    m_angle      = 0;
+    m_angVelocity      = 0;
+    m_activeBulletCount  = 0;
     m_agThrust           = false;
     m_tractor            = false;
     m_agNorm             = Vector3::zero();
@@ -90,7 +90,7 @@ void Ship::AGMove(float dt)
 {
     //antigravity move, no acceleration or velocity
     //directly affects position
-    setPosition(getPosition()	+ m_agNorm.unit() * dt * MAX_AG_SHIP_SPEED);
+    setPosition(getPosition() + m_agNorm.unit() * dt * MAX_AG_SHIP_SPEED);
 }
 
 //---------------------------------------------------------
@@ -114,24 +114,24 @@ void Ship::ApplyTractorBeam(float dt)
 //---------------------------------------------------------
 int Ship::MaxBullet()
 {
-	int num = 0;
-	switch(m_shotPowerLevel)
-	{
-		case 3:
-			num = 25;
-			break;
-		case 2:
-			num = 20;
-			break;
-		case 1:
-			num = 15;
-			break;
-		case 0:
-		default:
-			num = 10;
-			break;
-	}
-	return num;
+    int num = 0;
+    switch(m_shotPowerLevel)
+    {
+        case 3:
+            num = 25;
+            break;
+        case 2:
+            num = 20;
+            break;
+        case 1:
+            num = 15;
+            break;
+        case 0:
+        default:
+            num = 10;
+            break;
+    }
+    return num;
 }
 
 //---------------------------------------------------------
@@ -140,62 +140,62 @@ void Ship::Shoot(float angle)
     if(angle == -1)
         angle = m_angle;
     
-	if(m_activeBulletCount > MaxBullet())
-  		return;
-	
-	Bullet *bb;
-	switch(m_shotPowerLevel)
-	{
-		case 3:
-			m_activeBulletCount+=4;
-			bb =new Bullet(this, getPosition(), angle-180.0f);
-			Game.PostGameObj(bb);
-			bb =new Bullet(this, getPosition(), angle);
-			Game.PostGameObj(bb);
-			bb =new Bullet(this, getPosition(), angle-90.0f);
-			Game.PostGameObj(bb);
-			bb =new Bullet(this, getPosition(), angle+90.0f);
-			Game.PostGameObj(bb);
-			break;
-		case 2:
-			m_activeBulletCount+=3;
-			bb =new Bullet(this, getPosition(), angle-180.0f);
-			Game.PostGameObj(bb);
-			bb =new Bullet(this, getPosition(), angle);
-			Game.PostGameObj(bb);
-			bb =new Bullet(this, getPosition(), angle-90.0f);
-			Game.PostGameObj(bb);
-			break;
-		case 1:
-			m_activeBulletCount+=2;
-			bb =new Bullet(this,  getPosition(), angle-180.0f);
-			Game.PostGameObj(bb);
-			bb =new Bullet(this, getPosition(), angle);
-			Game.PostGameObj(bb);
-			break;
-		case 0:
-		default:
-			m_activeBulletCount++;
-			bb =new Bullet(this, getPosition(), angle);
-			Game.PostGameObj(bb);
-			break;
+    if(m_activeBulletCount > MaxBullet())
+   return;
+    
+    Bullet *bb;
+    switch(m_shotPowerLevel)
+    {
+        case 3:
+            m_activeBulletCount+=4;
+            bb =new Bullet(this, getPosition(), angle-180.0f);
+            Game.PostGameObj(bb);
+            bb =new Bullet(this, getPosition(), angle);
+            Game.PostGameObj(bb);
+            bb =new Bullet(this, getPosition(), angle-90.0f);
+            Game.PostGameObj(bb);
+            bb =new Bullet(this, getPosition(), angle+90.0f);
+            Game.PostGameObj(bb);
+            break;
+        case 2:
+            m_activeBulletCount+=3;
+            bb =new Bullet(this, getPosition(), angle-180.0f);
+            Game.PostGameObj(bb);
+            bb =new Bullet(this, getPosition(), angle);
+            Game.PostGameObj(bb);
+            bb =new Bullet(this, getPosition(), angle-90.0f);
+            Game.PostGameObj(bb);
+            break;
+        case 1:
+            m_activeBulletCount+=2;
+            bb =new Bullet(this,  getPosition(), angle-180.0f);
+            Game.PostGameObj(bb);
+            bb =new Bullet(this, getPosition(), angle);
+            Game.PostGameObj(bb);
+            break;
+        case 0:
+        default:
+            m_activeBulletCount++;
+            bb =new Bullet(this, getPosition(), angle);
+            Game.PostGameObj(bb);
+            break;
 
-	}
+    }
 }
 
 //---------------------------------------------------------
 void Ship::Draw()
 { 
-	//just a triangle
-	glPushMatrix();
-	glDisable(GL_LIGHTING);
-	glTranslated(getPosition().x, getPosition().y, getPosition().z);
-	glRotatef(m_angle,0,0,1);
+    //just a triangle
+    glPushMatrix();
+    glDisable(GL_LIGHTING);
+    glTranslated(getPosition().x, getPosition().y, getPosition().z);
+    glRotatef(m_angle,0,0,1);
     glScalef(m_size,m_size,m_size);
     if(m_invincibilityTimer > 0)
-	{
-		//blinking dashed lines
-		static unsigned short flag;
+    {
+        //blinking dashed lines
+        static unsigned short flag;
         //rolling dashed line
         if(flag == 0xff00)
             flag = 0x0ff0;
@@ -206,7 +206,7 @@ void Ship::Draw()
         else
             flag = 0xff00;
         glEnable(GL_LINE_STIPPLE);
-		glLineStipple (1, flag);
+        glLineStipple (1, flag);
         glBegin(GL_LINE_LOOP);
         glColor3f(.8,.8,.8);
         glVertex3f(-3,-2,0);
@@ -214,35 +214,35 @@ void Ship::Draw()
         glVertex3f(-3,2,0);
         glEnd();
         glDisable(GL_LINE_STIPPLE);
-	}
-	else
-	{
-		//solid triangle
-		glBegin(GL_LINE_LOOP);
+    }
+    else
+    {
+        //solid triangle
+        glBegin(GL_LINE_LOOP);
         glColor3f(.8,.8,.8);
         glVertex3f(-3,-2,0);
-		glVertex3f( 4,0,0);
-		glVertex3f(-3,2,0);
-		glEnd();
-	}
-	if(m_thrust)
-	{
-		glColor3f(.8,.4,.1);
-		glBegin(GL_LINE_STRIP);
-		glVertex3f(-2,-1,0);
-		glVertex3f(-4,0,0);
-		glVertex3f(-2,1,0);
-		glEnd();
-	}
-	if(m_revThrust)
-	{
-		glColor3f(.8,.4,.1);
-		glBegin(GL_LINE_STRIP);
-		glVertex3f(3, 1,0);
-		glVertex3f(5, 0,0);
-		glVertex3f(3,-1,0);
-		glEnd();
-	}
+        glVertex3f( 4,0,0);
+        glVertex3f(-3,2,0);
+        glEnd();
+    }
+    if(m_thrust)
+    {
+        glColor3f(.8,.4,.1);
+        glBegin(GL_LINE_STRIP);
+        glVertex3f(-2,-1,0);
+        glVertex3f(-4,0,0);
+        glVertex3f(-2,1,0);
+        glEnd();
+    }
+    if(m_revThrust)
+    {
+        glColor3f(.8,.4,.1);
+        glBegin(GL_LINE_STRIP);
+        glVertex3f(3, 1,0);
+        glVertex3f(5, 0,0);
+        glVertex3f(3,-1,0);
+        glEnd();
+    }
     if(m_tractor)
     {
         glColor3f(.1,.9,.1);
@@ -251,7 +251,7 @@ void Ship::Draw()
         glVertex3f(0, 0,0);
         glEnd();
     }
-	glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHTING);
     glPopMatrix();
 }
 
@@ -261,7 +261,7 @@ void Ship::DoCollision(GameObj *obj)
     //just take myself out
     Game.m_respawnTimer = 2.0f;
     Game.KillShip(this);
-	GameObj::DoCollision(obj);
+    GameObj::DoCollision(obj);
 }
 
 //---------------------------------------------------------
@@ -282,7 +282,7 @@ void Ship::Stop()
 //---------------------------------------------------------
 void Ship::Hyperspace()
 {
-	setPosition(Vector3(randflt() * Game.m_screenW, randflt() * Game.m_screenH, 0.0f));
+    setPosition(Vector3(randflt() * Game.m_screenW, randflt() * Game.m_screenH, 0.0f));
 }
 
 //---------------------------------------------------------
@@ -348,6 +348,6 @@ bool Ship::IsTurningLeft()
 //---------------------------------------------------------
 void Ship::setDestination(const Vector3& destination, float speed)
 {
-	Vector3 deltaPosition = destination - getPosition();
-	setVelocity(deltaPosition.unit() * speed);
+    Vector3 deltaPosition = destination - getPosition();
+    setVelocity(deltaPosition.unit() * speed);
 }

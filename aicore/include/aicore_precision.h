@@ -35,7 +35,6 @@
 #define SINGLE_PRECISION
 
 
-
 // Import the mathematical functions for both precisions
 #include <math.h>
 

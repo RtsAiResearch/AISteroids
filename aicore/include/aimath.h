@@ -97,7 +97,6 @@ namespace aicore
         /** A zero length vector. */
         const static Vector3 ZERO;
 
-
         /**
          * The explicit constructor creates a vector with the given
          * components.
@@ -322,13 +321,13 @@ namespace aicore
             }
         }
 
-		/** Returns a unit vector in the direction of this vector. */
-		Vector3 unit() const
-		{
-			Vector3 result = *this;
-			result.normalise();
-			return result;
-		}
+        /** Returns a unit vector in the direction of this vector. */
+        Vector3 unit() const
+        {
+            Vector3 result = *this;
+            result.normalise();
+            return result;
+        }
 
         void setMagnitude(real magnitude)
         {
@@ -349,7 +348,6 @@ namespace aicore
             y = -y;
             x = -z;
         }
-
 
         /** Checks if the vector is zero */
         bool isZero() const

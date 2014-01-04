@@ -64,7 +64,6 @@ namespace aicore
         Vector3 *target;
     };
 
-
     // Concrete classes
 
     /**

@@ -27,7 +27,6 @@ namespace aicore
         else return next->getAtPositionInList(pos-1);
     }
 
-
     LearningProblemState* LearningProblem::getInitialState()
     {
         return getRandomState();

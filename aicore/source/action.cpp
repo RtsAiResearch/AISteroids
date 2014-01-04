@@ -60,7 +60,6 @@ namespace aicore
         return true;
     }
 
-
     ActionManager::ActionManager()
             :
             activePriority(0),
@@ -219,7 +218,6 @@ namespace aicore
         }
     }
 
-
     bool ActionCompound::canDoBoth(const Action* action) const
     {
         Action * next = subActions;
@@ -236,7 +234,6 @@ namespace aicore
         if (subActions != NULL) subActions->deleteList();
         Action::deleteList();
     }
-
 
     bool ActionCombination::canInterrupt()
     {
@@ -269,7 +266,6 @@ namespace aicore
             next = next->next;
         }
     }
-
 
 
     bool ActionSequence::canInterrupt()

@@ -77,7 +77,6 @@ namespace aicore
         return !match->matches(database, 0);
     }
 
-
     bool DataNodeMatch::matches(const Database *database,
                             DataBindings *bindings)
     {
@@ -128,7 +127,6 @@ namespace aicore
         }
         return true;
     }
-
 
     template<typename T>
     RangeMatch<T>::RangeMatch(id identifier, T min, T max)

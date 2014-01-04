@@ -21,11 +21,11 @@ void Reshape(GLsizei w, GLsizei h)
 { 
     glutReshapeWindow(w,h);
     glViewport(0,0,w,h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluOrtho2D(0,w,0,h);
-	glMatrixMode(GL_MODELVIEW);
-}		
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0,w,0,h);
+    glMatrixMode(GL_MODELVIEW);
+} 
 
 //---------------------------------------------------------
 //-- Glut Idle Callback .
@@ -33,68 +33,68 @@ static float lasttime;
 static float dt;
 void Idle(void)
 {
-	dt=glutGet(GLUT_ELAPSED_TIME)-lasttime;
-	lasttime=glutGet(GLUT_ELAPSED_TIME);
+    dt=glutGet(GLUT_ELAPSED_TIME)-lasttime;
+    lasttime=glutGet(GLUT_ELAPSED_TIME);
 
-	if(Game.m_state == GameSession::STATE_PLAY)
-		//Game.Update(dt/1000.0f);
-		Game.Update(0.016f*Game.m_timeScale);//lock at 60
+    if(Game.m_state == GameSession::STATE_PLAY)
+        //Game.Update(dt/1000.0f);
+        Game.Update(0.016f*Game.m_timeScale);//lock at 60
     else if(Game.m_state == GameSession::STATE_STEP)
     {
         Game.Update(0.016f);
         Game.m_state = GameSession::STATE_STEPWAIT;
     }
 
-	glutPostRedisplay();
+    glutPostRedisplay();
 }
 
 //---------------------------------------------------------
 //-- Glut Callback on Window visibility.
 void Visible(int vis)
 {
-	if (vis == GLUT_VISIBLE)
-		glutIdleFunc(Idle);
-	else
-		glutIdleFunc(NULL);
+    if (vis == GLUT_VISIBLE)
+        glutIdleFunc(Idle);
+    else
+        glutIdleFunc(NULL);
 }
 
 //---------------------------------------------------------
 //-- Glut Callback to Draw everything.
 void Display(void)
 { 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	Game.Draw();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    Game.Draw();
     glFinish();
-	glutSwapBuffers();
+    glutSwapBuffers();
 }
 
 //---------------------------------------------------------
 int main(int argc, char** argv)
 { 
-	glutInit(&argc, argv);
-	Game.m_screenW = INITIAL_WORLD_SIZE;
-	Game.m_screenH = INITIAL_WORLD_SIZE;
-	glutInitWindowSize(Game.m_screenW,Game.m_screenH);
+    glutInit(&argc, argv);
+    Game.m_screenW = INITIAL_WORLD_SIZE;
+    Game.m_screenH = INITIAL_WORLD_SIZE;
+    glutInitWindowSize(Game.m_screenW,Game.m_screenH);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH );
-	glutCreateWindow("AIsteroids");
+    glutCreateWindow("AIsteroids");
 
-	glutReshapeFunc(Reshape);
-	glutDisplayFunc(Display);
-	glutIdleFunc(Idle);
-	glutVisibilityFunc(Visible);
-	
-	//sets up the keyboard functions
-	glutKeyboardFunc(Key);	
-	glutKeyboardUpFunc(KeyUp);	
-	glutSpecialFunc(SpecialKey);	
-	glutSpecialUpFunc(SpecialKeyUp);	
+    glutReshapeFunc(Reshape);
+    glutDisplayFunc(Display);
+    glutIdleFunc(Idle);
+    glutVisibilityFunc(Visible);
+    
+    //sets up the keyboard functions
+    glutKeyboardFunc(Key); 
+    glutKeyboardUpFunc(KeyUp); 
+    glutSpecialFunc(SpecialKey); 
+    glutSpecialUpFunc(SpecialKeyUp); 
 
-	glInitColorArray();
-	srand(time(NULL));	
-	Game.StartGame();
-	glutMainLoop();
+    glInitColorArray();
+    srand(time(NULL)); 
+    Game.StartGame();
+    glutMainLoop();
   return 0;             
 }
 

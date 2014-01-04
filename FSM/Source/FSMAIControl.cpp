@@ -39,7 +39,7 @@ void FSMAIControl::Init()
     m_nearestPowerup  = NULL;
     m_safetyRadius    = 15.0f;
     m_maxSpeed        = AI_MAX_SPEED_TRY;///Game.m_timeScale;
-	m_asteroidCount   = INT_MAX;
+    m_asteroidCount   = INT_MAX;
     
     if(!m_target)
     {
@@ -74,8 +74,8 @@ void FSMAIControl::UpdatePerceptions(float dt)
     m_nearestAsteroid = Game.GetClosestGameObj(m_ship,GameObj::OBJ_ASTEROID);
     m_nearestPowerup  = Game.GetClosestGameObj(m_ship,GameObj::OBJ_POWERUP);
 
-	//count number of asteroids in the scene
-	m_asteroidCount = Game.GetNumGameObj(GameObj::OBJ_ASTEROID);
+    //count number of asteroids in the scene
+    m_asteroidCount = Game.GetNumGameObj(GameObj::OBJ_ASTEROID);
     
     //asteroid collision determination
     m_willCollide = false;

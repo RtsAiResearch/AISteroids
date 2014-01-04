@@ -48,13 +48,11 @@ namespace cyclone {
     {
         // ... Other ParticleContact code as before ...
 
-
         /**
          * The contact resolver object needs access into the contacts to
          * set and effect the contact.
          */
         friend ParticleContactResolver;
-
 
     public:
         /**
@@ -189,7 +187,6 @@ namespace cyclone {
         virtual unsigned addContact(ParticleContact *contact,
                                     unsigned limit) const = 0;
     };
-
 
 
 } // namespace cyclone

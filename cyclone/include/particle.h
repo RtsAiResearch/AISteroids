@@ -39,7 +39,6 @@ namespace cyclone {
 
         // ... Other Particle code as before ...
 
-
     protected:
         /**
          * @name Characteristic Data and State
@@ -165,7 +164,6 @@ namespace cyclone {
         void integrate(real duration);
 
         /*@}*/
-
 
         /**
          * @name Accessor Functions for the Particle's State
@@ -365,7 +363,6 @@ namespace cyclone {
          * @param force The force to apply.
          */
         void addForce(const Vector3 &force);
-
 
     };
 }

@@ -45,8 +45,7 @@ void StateEvade::Update(float dt)
         else
             ship->TurnLeft();
     }
-    
-    
+
     parent->m_target->setPosition(parent->m_nearestAsteroid->getPosition());
     parent->m_targetDir = newDir;
     parent->m_debugTxt = "Evade";

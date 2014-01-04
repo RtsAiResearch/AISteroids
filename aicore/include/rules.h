@@ -150,7 +150,6 @@ namespace aicore
 
     /* @} */
 
-
     /**
      * @name Structures for Rules
      *
@@ -367,7 +366,6 @@ namespace aicore
 
     /** A typedef for a range match on a position vector. */
     typedef RangeMatch<Vector3> VectorRangeMatch;
-
 
     /**
      * A match object that matches if both its children match.

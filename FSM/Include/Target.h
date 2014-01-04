@@ -5,8 +5,8 @@
 class Target : public GameObj
 {
 public:
-	//constructors/functions
-	Target();
+    //constructors/functions
+    Target();
     ~Target();
-	void Draw();
+    void Draw();
 };

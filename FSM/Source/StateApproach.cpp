@@ -14,48 +14,48 @@ void StateApproach::Update(float dt)
     GameObj* asteroid = parent->m_nearestAsteroid;
     Ship* ship = parent->m_ship;
 
-	Vector3 target = asteroid->getPosition() - ship->getPosition();
-	float rotationAngle = ship->UnitVectorVelocity().scalarProduct(target.unit());
-	float rotationAngleDegree = (acosf(rotationAngle) * 180.0f) / M_PI;
+    Vector3 target = asteroid->getPosition() - ship->getPosition();
+    float rotationAngle = ship->UnitVectorVelocity().scalarProduct(target.unit());
+    float rotationAngleDegree = (acosf(rotationAngle) * 180.0f) / M_PI;
 
-	ship->addRotation(Vector3(100, 10000, 0));
+    ship->addRotation(Vector3(100, 10000, 0));
 
-	/*if (rotationAngleDegree < 20)
-	{
-	ship->StopTurn();
-	}
-	else if (rotationAngleDegree < 180)
-	{
-	ship->TurnRight();
-	}
-	else
-	{
-	ship->TurnLeft();
-	}*/
+    /*if (rotationAngleDegree < 20)
+    {
+    ship->StopTurn();
+    }
+    else if (rotationAngleDegree < 180)
+    {
+    ship->TurnRight();
+    }
+    else
+    {
+    ship->TurnLeft();
+    }*/
 
-	//Vector3 deltaPos = asteroid->getPosition() - ship->getPosition();
-	//float dotVelocity = DOT(ship->UnitVectorVelocity(), asteroid->UnitVectorVelocity());
-	////if the other guy is "to my front" and we're moving towards each other...
-	//Vector3 targetPos = asteroid->getPosition();
-	//float dotProduct = DOT(deltaPos, ship->UnitVectorVelocity());
-	//if (dotProduct < 0 ||    // if obtuse angle 
-	//	dotVelocity > -0.93) // magic number == about 21 degrees
-	//{
-	//	Vector3 shipVel = ship->getVelocity();
-	//	shipVel = shipVel.unit() * parent->m_maxSpeed;
-	//	float combinedSpeed	  = (shipVel + asteroid->getVelocity()).magnitude();
-	//	float predictionTime  = deltaPos.magnitude() / combinedSpeed;
-	//	targetPos = asteroid->getPosition() + (asteroid->getVelocity() * predictionTime);
-	//	deltaPos  = targetPos - ship->getPosition();
-	//}
-	////sub off our current velocity, to get direction of wanted velocity
-	//deltaPos -= ship->getVelocity();
+    //Vector3 deltaPos = asteroid->getPosition() - ship->getPosition();
+    //float dotVelocity = DOT(ship->UnitVectorVelocity(), asteroid->UnitVectorVelocity());
+    ////if the other guy is "to my front" and we're moving towards each other...
+    //Vector3 targetPos = asteroid->getPosition();
+    //float dotProduct = DOT(deltaPos, ship->UnitVectorVelocity());
+    //if (dotProduct < 0 ||    // if obtuse angle 
+    // dotVelocity > -0.93) // magic number == about 21 degrees
+    //{
+    // Vector3 shipVel = ship->getVelocity();
+    // shipVel = shipVel.unit() * parent->m_maxSpeed;
+    // float combinedSpeed   = (shipVel + asteroid->getVelocity()).magnitude();
+    // float predictionTime  = deltaPos.magnitude() / combinedSpeed;
+    // targetPos = asteroid->getPosition() + (asteroid->getVelocity() * predictionTime);
+    // deltaPos  = targetPos - ship->getPosition();
+    //}
+    ////sub off our current velocity, to get direction of wanted velocity
+    //deltaPos -= ship->getVelocity();
  // 
  //   //find new direction, and head to it
- //   float newDir	 = CALCDIR(deltaPos);
- //   float angDelta	 = CLAMPDIR180(newDir - ship->m_angle);
-	//bool canApproachInReverse = ship->GetShotLevel() != 0;
-	//
+ //   float newDir  = CALCDIR(deltaPos);
+ //   float angDelta  = CLAMPDIR180(newDir - ship->m_angle);
+    //bool canApproachInReverse = ship->GetShotLevel() != 0;
+    //
  //   if(fabsf(angDelta) < 3 || (fabsf(angDelta) > 177 && canApproachInReverse) )
  //   {
  //       //thrust
@@ -65,13 +65,13 @@ void StateApproach::Update(float dt)
  //       else
  //           ship->ThrustOff();
  //   }
-	//else if(fabsf(angDelta) <= 90 || !canApproachInReverse)
+    //else if(fabsf(angDelta) <= 90 || !canApproachInReverse)
  //   {
  //       //turn when facing forwards
-	//	if(angDelta<0)
-	//		ship->TurnRight();
-	//	else if(angDelta>0)
-	//		ship->TurnLeft();
+    // if(angDelta<0)
+    // ship->TurnRight();
+    // else if(angDelta>0)
+    // ship->TurnLeft();
  //   }
  //   else
  //   {
@@ -95,7 +95,7 @@ int StateApproach::CheckTransitions()
         return FSM_STATE_EVADE;
 
     /*if(parent->m_powerupNear && parent->m_nearestAsteroidDist > 
-	   parent->m_nearestPowerupDist && parent->m_ship->GetShotLevel() < MAX_SHOT_LEVEL)
+       parent->m_nearestPowerupDist && parent->m_ship->GetShotLevel() < MAX_SHOT_LEVEL)
         return FSM_STATE_GETPOWERUP;*/
 
     /*if(!parent->m_nearestAsteroid || parent->m_nearestAsteroidDist < APPROACH_DIST)

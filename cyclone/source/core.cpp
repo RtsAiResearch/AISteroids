@@ -10,7 +10,6 @@
  * software licence.
  */
 
-
 #include <core.h>
 
 using namespace cyclone;
