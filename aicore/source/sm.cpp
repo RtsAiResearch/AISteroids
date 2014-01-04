@@ -18,7 +18,6 @@ namespace aicore
         return target;
     }
 
-
     Action * StateMachineState::getEntryActions()
     {
         return NULL;

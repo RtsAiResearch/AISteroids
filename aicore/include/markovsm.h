@@ -121,7 +121,6 @@ namespace aicore
         virtual Action * update();
     };
 
-
 }; // end of namespace
 
 #endif // AICORE_MARKOVSM_H

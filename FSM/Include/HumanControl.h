@@ -7,9 +7,9 @@ class Ship;
 class HumanControl: public Control
 {
 public:
-	//constructor/functions
-	HumanControl(Ship* ship = NULL);
-	
+    //constructor/functions
+    HumanControl(Ship* ship = NULL);
+    
 };
 // global keyboard functions
 extern void Key(unsigned char key, int x, int y);

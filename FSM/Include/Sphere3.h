@@ -6,29 +6,28 @@
 template <class FLTYPE> class Sphere3
 {
   public:
-	cyclone::Vector3 c;
-	FLTYPE r;
-	inline Sphere3( void ){}
-	inline Sphere3(cyclone::Vector3 const & cc,FLTYPE const & rr){c=cc;r=rr;}
-	inline Sphere3(cyclone::Vector3 const & cc){c=cc;r=0;}
-	
-	inline int Circumscribe(cyclone::Vector3 &v0,cyclone::Vector3 &v1,cyclone::Vector3 &v2,cyclone::Vector3 &v3);
-	bool operator < (Sphere3 const & s) const {
-		if(c!=s.c) return c<s.c;
-		else return r<s.r;}
-	bool operator == (Sphere3 const & s) const{
-		return (c==s.c && r==s.r);}
+    cyclone::Vector3 c;
+    FLTYPE r;
+    inline Sphere3( void ){}
+    inline Sphere3(cyclone::Vector3 const & cc,FLTYPE const & rr){c=cc;r=rr;}
+    inline Sphere3(cyclone::Vector3 const & cc){c=cc;r=0;}
+    
+    inline int Circumscribe(cyclone::Vector3 &v0,cyclone::Vector3 &v1,cyclone::Vector3 &v2,cyclone::Vector3 &v3);
+    bool operator < (Sphere3 const & s) const {
+        if(c!=s.c) return c<s.c;
+        else return r<s.r;}
+    bool operator == (Sphere3 const & s) const{
+        return (c==s.c && r==s.r);}
 
+    inline bool Intersect(cyclone::Vector3 const & p) const {
+        if((c-p).LengthSquared() < r*r) return true;
+        else return false;
+    }
 
-	inline bool Intersect(cyclone::Vector3 const & p) const {
-		if((c-p).LengthSquared() < r*r) return true;
-		else return false;
-	}
-
-	inline bool Intersect(Sphere3<FLTYPE> const & s) const {
-		if((c-s.c).magnitude()< r+s.r) return true;
-		else return false;
-	}
+    inline bool Intersect(Sphere3<FLTYPE> const & s) const {
+        if((c-s.c).magnitude()< r+s.r) return true;
+        else return false;
+    }
     inline bool Intersect(cyclone::Vector3 &p1,cyclone::Vector3 &p2)
     {//circle to line segment
         float top = (c.x - p1.x)*(p2.x - p1.x)  + 
@@ -47,16 +46,15 @@ template <class FLTYPE> class Sphere3
         return false;
     }
 
-	inline FLTYPE Distance( Sphere3<FLTYPE> const & s ) const{
-			return (c-s.c).Length()-(r+s.r);
-	}
-	// It is not faster that Distance!!!
-		inline FLTYPE SquaredDistance( Sphere3<FLTYPE> const & s ) const{
-			return (c-s.c).Length()-(r+s.r)*(c-s.c).Length()-(r+s.r);
-	}
+    inline FLTYPE Distance( Sphere3<FLTYPE> const & s ) const{
+            return (c-s.c).Length()-(r+s.r);
+    }
+    // It is not faster that Distance!!!
+        inline FLTYPE SquaredDistance( Sphere3<FLTYPE> const & s ) const{
+            return (c-s.c).Length()-(r+s.r)*(c-s.c).Length()-(r+s.r);
+    }
 
 }; // End Class
-
 
 /** Algorithms Working with spheres and points */
 

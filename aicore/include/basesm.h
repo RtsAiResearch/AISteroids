@@ -57,7 +57,6 @@ namespace aicore
         BaseTransition * next;
     };
 
-
     /**
      * @name Types of Condition
      *

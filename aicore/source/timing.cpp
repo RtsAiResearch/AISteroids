@@ -97,7 +97,6 @@ namespace aicore
 #endif
     }
 
-
     // Holds the global frame time that is passed around
     static TimingData *timingData = NULL;
 

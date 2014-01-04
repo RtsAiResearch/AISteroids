@@ -98,25 +98,24 @@ namespace aicore
             return linear != other.linear ||  angular != other.angular;
         }
 
-		/**
-		 * Returns the square of the magnitude of this steering output.
-		 * This includes the angular component.
-		 */
-		real squareMagnitude()
-		{
-			return linear.squareMagnitude() + angular*angular;
-		}
+        /**
+         * Returns the square of the magnitude of this steering output.
+         * This includes the angular component.
+         */
+        real squareMagnitude()
+        {
+            return linear.squareMagnitude() + angular*angular;
+        }
 
-		/**
-		* Returns the magnitude of this steering output.
-		* This includes the angular component.
-		 */
-		real magnitude()
-		{
-			return real_sqrt(squareMagnitude());
-		}
+        /**
+        * Returns the magnitude of this steering output.
+        * This includes the angular component.
+         */
+        real magnitude()
+        {
+            return real_sqrt(squareMagnitude());
+        }
     };
-
 
     /**
      * Represents the location of a character or other object.
@@ -508,7 +507,6 @@ namespace aicore
          */
         void setOrientationFromVelocity();
     };
-
 
 }; // end of namespace
 

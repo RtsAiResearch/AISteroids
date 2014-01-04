@@ -9,16 +9,16 @@ using namespace cyclone;
 //---------------------------------------------------------
 void StateMassiveAttack::Update(float dt)
 {
-	FSMAIControl* parent = (FSMAIControl*)m_parent;
+    FSMAIControl* parent = (FSMAIControl*)m_parent;
     GameObj* asteroid = parent->m_nearestAsteroid;
     Ship*    ship     = parent->m_ship;
     
     if(!asteroid)
         return;
 
-	ship->setDestination(Vector3(Game.m_screenW / 2, Game.m_screenH / 2, 0), parent->m_maxSpeed);
-	ship->TurnRight();
-	ship->Shoot();
+    ship->setDestination(Vector3(Game.m_screenW / 2, Game.m_screenH / 2, 0), parent->m_maxSpeed);
+    ship->TurnRight();
+    ship->Shoot();
 
     parent->m_debugTxt = "MassiveAttack";
 }

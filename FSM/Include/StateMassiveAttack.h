@@ -9,7 +9,7 @@ public:
 
     void Update(float dt);
     
-	int CheckTransitions();
+    int CheckTransitions();
     
-	void Exit();
+    void Exit();
 };

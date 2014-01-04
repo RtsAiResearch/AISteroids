@@ -82,7 +82,6 @@ namespace cyclone {
             return transform;
         }
 
-
     protected:
         /**
          * The resultant transform of the primitive. This is
@@ -174,7 +173,6 @@ namespace cyclone {
             const CollisionBox &box,
             const CollisionPlane &plane);
     };
-
 
     /**
      * A helper structure that contains information for the detector to use
@@ -304,7 +302,6 @@ namespace cyclone {
             CollisionData *data
             );
     };
-
 
 
 } // namespace cyclone

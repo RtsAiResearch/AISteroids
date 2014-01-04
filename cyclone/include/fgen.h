@@ -123,7 +123,6 @@ namespace cyclone {
 
         // ... Other Explosion code as before ...
 
-
         /**
          * The radius up to which objects implode in the first stage
          * of the explosion.
@@ -467,6 +466,5 @@ namespace cyclone {
         void updateForces(real duration);
     };
 }
-
 
 #endif // CYCLONE_FGEN_H

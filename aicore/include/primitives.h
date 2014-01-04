@@ -33,21 +33,21 @@
  */
 namespace aicore
 {
-	/**
-	 * A spherical primitive.
-	 */
-	struct Sphere
-	{
-		/**
-		 * The position of the geometric centre of the sphere.
-		 */
-		Vector3 position;
+    /**
+     * A spherical primitive.
+     */
+    struct Sphere
+    {
+        /**
+         * The position of the geometric centre of the sphere.
+         */
+        Vector3 position;
 
-		/**
-		 * The radius of the sphere.
-		 */
-		real radius;
-	};
+        /**
+         * The radius of the sphere.
+         */
+        real radius;
+    };
 
 }; // end of namespace
 

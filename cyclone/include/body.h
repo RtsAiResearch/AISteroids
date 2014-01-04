@@ -45,7 +45,6 @@ namespace cyclone {
 
         // ... Other RigidBody code as before ...
 
-
     protected:
         /**
          * @name Characteristic Data and State
@@ -146,7 +145,6 @@ namespace cyclone {
 
         /*@}*/
 
-
         /**
          * @name Derived Data
          *
@@ -196,7 +194,6 @@ namespace cyclone {
         Matrix4 transformMatrix;
 
         /*@}*/
-
 
         /**
          * @name Force and Torque Accumulators
@@ -249,7 +246,6 @@ namespace cyclone {
 
         /*@}*/
 
-
         /**
          * @name Integration and Simulation Functions
          *
@@ -282,7 +278,6 @@ namespace cyclone {
         void integrate(real duration);
 
         /*@}*/
-
 
         /**
          * @name Accessor Functions for the Rigid Body's State
@@ -834,7 +829,6 @@ namespace cyclone {
 
         /*@}*/
 
-
         /**
          * @name Retrieval Functions for Dynamic Quantities
          *
@@ -872,7 +866,6 @@ namespace cyclone {
         Vector3 getLastFrameAcceleration() const;
 
         /*@}*/
-
 
         /**
          * @name Force, Torque and Acceleration Set-up Functions

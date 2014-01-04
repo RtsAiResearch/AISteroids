@@ -4,7 +4,6 @@
 #pragma warning(disable: 4786)
 #include <vector>
 
-
 class FSMMachine: public FSMState
 {
 public:
@@ -24,5 +23,5 @@ protected:
     FSMState* m_currentState;
     FSMState* m_defaultState;
     FSMState* m_goalState;
-    int		  m_goalID;
+    int   m_goalID;
 };

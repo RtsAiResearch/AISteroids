@@ -11,25 +11,25 @@ class GameObj;
 class FSMAIControl: public AIControl
 {
 public:
-	//constructor/functions
-	FSMAIControl(Ship* ship = NULL);
-	void Update(float dt);
-	void UpdatePerceptions(float dt);
-	void Init();
-	
-	//perception data 
-	//(public so that states can share it)
-	GameObj*	m_nearestAsteroid;
-	GameObj*	m_nearestPowerup;
-	short		m_asteroidCount;
-	float       m_nearestAsteroidDist;
-	float       m_nearestPowerupDist;
-	bool        m_willCollide;
-	bool        m_powerupNear;
-	float       m_safetyRadius;
+    //constructor/functions
+    FSMAIControl(Ship* ship = NULL);
+    void Update(float dt);
+    void UpdatePerceptions(float dt);
+    void Init();
+    
+    //perception data 
+    //(public so that states can share it)
+    GameObj* m_nearestAsteroid;
+    GameObj* m_nearestPowerup;
+    short m_asteroidCount;
+    float       m_nearestAsteroidDist;
+    float       m_nearestPowerupDist;
+    bool        m_willCollide;
+    bool        m_powerupNear;
+    float       m_safetyRadius;
     float       m_maxSpeed;
     
 protected:
-	//data
-	FSMMachine* m_machine;
+    //data
+    FSMMachine* m_machine;
 };

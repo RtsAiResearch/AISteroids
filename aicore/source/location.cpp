@@ -24,7 +24,6 @@ namespace aicore
         orientation += (rotation)*duration; \
         orientation = real_mod_real(orientation, M_2PI);
 
-
     /*
      * Uses SIMPLE_INTEGRATION(duration), defined above.
      */
@@ -108,7 +107,6 @@ namespace aicore
         velocity.z += steer.linear.z*duration;
         rotation += steer.angular*duration;
     }
-
 
 
     /* Add and divide used in finding Kinematic means. */

@@ -23,7 +23,7 @@ void StateGetPowerup::Update(float dt)
     float speed = parent->m_maxSpeed;
     float time = dist/speed;
     futurePowPosition += powerup->getVelocity() * time - ship->getVelocity() * time;
-	Game.Clip(futurePowPosition);
+    Game.Clip(futurePowPosition);
     Vector3 deltaFPos = futurePowPosition - ship->getPosition();
     deltaFPos.normalise();
     
@@ -77,10 +77,10 @@ int StateGetPowerup::CheckTransitions()
     if(parent->m_willCollide)
         return FSM_STATE_EVADE;
 
-	if (parent->m_asteroidCount < 4)
-	{
-		return FSM_STATE_GETPOWERUP;
-	}
+    if (parent->m_asteroidCount < 4)
+    {
+        return FSM_STATE_GETPOWERUP;
+    }
 
     if(!parent->m_nearestPowerup || parent->m_nearestAsteroidDist < parent->m_nearestPowerupDist)
         return FSM_STATE_IDLE;

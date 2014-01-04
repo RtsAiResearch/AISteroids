@@ -7,13 +7,13 @@
 class Exp : public GameObj
 {
 public:
-	//constructors/functions
-	Exp(GameObj* parent = NULL);
-	void Draw();
-	void Init();
+    //constructors/functions
+    Exp(GameObj* parent = NULL);
+    void Draw();
+    void Init();
 
 private:
-	//data
-	int	m_parentType;
-	int	m_parentAngle;
+    //data
+    int m_parentType;
+    int m_parentAngle;
 };

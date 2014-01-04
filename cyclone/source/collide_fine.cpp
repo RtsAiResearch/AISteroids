@@ -10,7 +10,6 @@
  * software licence.
  */
 
-
 #include <collide_fine.h>
 #include <memory.h>
 #include <assert.h>
@@ -254,8 +253,6 @@ unsigned CollisionDetector::sphereAndSphere(
 }
 
 
-
-
 /*
  * This function checks if the two boxes overlap
  * along the given axis, returning the ammount of overlap.
@@ -281,7 +278,6 @@ static inline real penetrationOnAxis(
     // overlap, negative indicates separation).
     return oneProject + twoProject - distance;
 }
-
 
 static inline bool tryAxis(
     const CollisionBox &one,
@@ -530,8 +526,6 @@ unsigned CollisionDetector::boxAndBox(
     return 0;
 }
 #undef CHECK_OVERLAP
-
-
 
 
 unsigned CollisionDetector::boxAndPoint(

@@ -128,7 +128,6 @@ namespace aicore
         virtual Action * update();
     };
 
-
 }; // end of namespace
 
 #endif // AICORE_SM_H

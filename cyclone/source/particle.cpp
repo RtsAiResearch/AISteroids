@@ -15,7 +15,6 @@
 
 using namespace cyclone;
 
-
 /*
  * --------------------------------------------------------------------------
  * FUNCTIONS DECLARED IN HEADER:
@@ -45,7 +44,6 @@ void Particle::integrate(real duration)
     // Clear the forces.
     clearAccumulator();
 }
-
 
 
 void Particle::setMass(const real mass)

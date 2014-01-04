@@ -9,15 +9,15 @@
 class Bullet : public GameObj
 {
 public:
-	//constructors/functions
-	Bullet(Ship* _parent, const cyclone::Vector3 &_p, const float _angle);
-  	Bullet(Ship* _parent, const cyclone::Vector3 &_p, const float _angle, const cyclone::Vector3 &_v);
+    //constructors/functions
+    Bullet(Ship* _parent, const cyclone::Vector3 &_p, const float _angle);
+   Bullet(Ship* _parent, const cyclone::Vector3 &_p, const float _angle, const cyclone::Vector3 &_v);
 
-	void Draw();
-	void Update(float dt);
-	void Init();
-	void DoCollision(GameObj *obj);
+    void Draw();
+    void Update(float dt);
+    void Init();
+    void DoCollision(GameObj *obj);
 
-	//data
-	Ship*	m_parent;
+    //data
+    Ship* m_parent;
 };

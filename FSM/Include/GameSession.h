@@ -23,12 +23,12 @@ typedef std::list<GameObj*> GameObjectList;
 class GameSession
 {
 public:
-	//constructor/main functions
-	GameSession();
-	void Update(float dt);
-	void Draw();
-	void DrawLives();
-	void Clip(cyclone::Vector3 &p);
+    //constructor/main functions
+    GameSession();
+    void Update(float dt);
+    void Draw();
+    void DrawLives();
+    void Clip(cyclone::Vector3 &p);
     void PostGameObj(GameObj *obj);
     int  GetNumGameObj(int type);
     GameObj* GetClosestGameObj(GameObj* obj, int type);
@@ -57,8 +57,8 @@ public:
     void UseControl(int control);
     
     //score functions
-    void IncrementScore(int inc)	{m_score += inc;}
-    void ResetScore()				{m_score = 0;m_bonusScore = BONUS_LIFE_SCORE;}
+    void IncrementScore(int inc) {m_score += inc;}
+    void ResetScore() {m_score = 0;m_bonusScore = BONUS_LIFE_SCORE;}
     
     //game related fucntions
     void StartGame();

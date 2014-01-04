@@ -105,7 +105,6 @@ namespace aicore
          */
         static unsigned long getClock();
 
-
     private:
         // These are private to stop instances being created: use get().
         TimingData() {}
@@ -113,9 +112,7 @@ namespace aicore
         TimingData& operator=(const TimingData &) {}
     };
 
-
 }; // end of namespace
 
 #endif // AICORE_TIMING_H
-
 
